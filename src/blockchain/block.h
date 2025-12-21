@@ -3,7 +3,7 @@
 
 #include <time.h>
 
-#define HASH_SIZE 64
+#define HASH_SIZE 65
 #define MAX_TRANSACTIONS 5
 
 typedef struct {
