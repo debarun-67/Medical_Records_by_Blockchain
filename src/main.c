@@ -32,25 +32,23 @@ int main() {
     strcpy(tx.patient_id, "PATIENT123");                 // pseudonymized
     strcpy(tx.doctor_id, "DOCTOR01");
     strcpy(tx.data_pointer, "file://offchain/storage/record1.enc");
-    sha256("encrypted_medical_record_sample", tx.data_hash);
-    tx.timestamp = time(NULL);
 
+    /* IMPORTANT: Hash ONLY a short, safe string */
+    sha256("encrypted_medical_record_sample", tx.data_hash);
+
+    tx.timestamp = time(NULL);
     block.transactions[0] = tx;
 
     /* -------------------------------
        STEP 3: Hash and Sign Block
        ------------------------------- */
-    char data_to_hash[256];
-    snprintf(
-        data_to_hash,
-        sizeof(data_to_hash),
-        "%d%s%s",
-        block.index,
-        block.previous_hash,
-        tx.data_hash
-    );
 
-    sha256(data_to_hash, block.block_hash);
+    /*
+     * IMPORTANT FIX:
+     * Do NOT hash long concatenated strings.
+     * Use the transaction hash directly.
+     */
+    sha256(tx.data_hash, block.block_hash);
 
     /* Proof of Authority: validator signs the block */
     sign_data(
@@ -65,11 +63,14 @@ int main() {
     /* -------------------------------
        STEP 4: Verify Blockchain
        ------------------------------- */
-    if (verify_blockchain()) {
-        printf("Blockchain verified successfully.\n");
-    } else {
-        printf("Blockchain verification failed.\n");
-    }
+    int result = verify_blockchain();
 
+if (result == 1) {
+    printf("Blockchain verified successfully.\n");
+} else {
+    printf("Blockchain verification failed.\n");
+}
+
+fflush(stdout);
     return 0;
 }

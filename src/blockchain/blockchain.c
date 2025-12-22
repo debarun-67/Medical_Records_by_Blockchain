@@ -27,18 +27,44 @@ void add_block(Block *new_block) {
 }
 
 int verify_blockchain() {
-    FILE *fp = fopen(BLOCKCHAIN_FILE, "rb");
-    if (!fp) return 0;
+    FILE *fp = fopen("data/blockchain.dat", "rb");
+    if (!fp) {
+        printf("ERROR: Blockchain file not found.\n");
+        return 0;
+    }
 
     Block prev, curr;
-    fread(&prev, sizeof(Block), 1, fp);
 
-    while (fread(&curr, sizeof(Block), 1, fp)) {
-        if (strcmp(curr.previous_hash, prev.block_hash) != 0)
-            return 0;
+    /* Read genesis block */
+    if (fread(&prev, sizeof(Block), 1, fp) != 1) {
+        fclose(fp);
+        return 0;
+    }
 
-        if (!verify_signature(curr.block_hash, VALIDATOR_PUBLIC_KEY, curr.validator_signature))
+    /* Verify genesis block signature only */
+    if (!verify_signature(prev.block_hash,
+                          "hospital_private_key",
+                          prev.validator_signature)) {
+        fclose(fp);
+        return 0;
+    }
+
+    /* Verify remaining blocks */
+    while (fread(&curr, sizeof(Block), 1, fp) == 1) {
+
+        /* Check hash linkage */
+        if (strcmp(curr.previous_hash, prev.block_hash) != 0) {
+            fclose(fp);
             return 0;
+        }
+
+        /* Verify validator signature */
+        if (!verify_signature(curr.block_hash,
+                              "hospital_private_key",
+                              curr.validator_signature)) {
+            fclose(fp);
+            return 0;
+        }
 
         prev = curr;
     }
@@ -46,3 +72,4 @@ int verify_blockchain() {
     fclose(fp);
     return 1;
 }
+
