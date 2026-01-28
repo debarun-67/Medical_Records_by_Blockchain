@@ -24,4 +24,7 @@ typedef struct {
     int transaction_count;
 } Block;
 
+void init_block(Block *block, int index, const char *prev_hash);
+int add_transaction(Block *block, Transaction tx);
+
 #endif
