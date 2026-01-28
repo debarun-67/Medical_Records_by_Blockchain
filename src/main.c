@@ -2,7 +2,6 @@
 #include <string.h>
 #include <time.h>
 
-/* Project headers */
 #include "blockchain/blockchain.h"
 #include "blockchain/block.h"
 #include "crypto/hash.h"
@@ -10,9 +9,6 @@
 
 #define OFFCHAIN_DIR "offchain/records/"
 
-/* ------------------------------------
-   Helper: Hash encrypted file (binary safe)
------------------------------------- */
 int hash_file(const char *filename, char *output_hash) {
     FILE *fp = fopen(filename, "r");
     if (!fp) {
@@ -35,7 +31,7 @@ int hash_file(const char *filename, char *output_hash) {
 
     fclose(fp);
 
-    /* Build canonical fingerprint (short & safe) */
+
     char fingerprint[256];
     snprintf(
         fingerprint,
@@ -54,9 +50,7 @@ int hash_file(const char *filename, char *output_hash) {
 
 
 
-/* ------------------------------------
-   Helper: Check duplicate record
------------------------------------- */
+
 int record_exists(const char *data_hash) {
     FILE *fp = fopen("data/blockchain.dat", "rb");
     if (!fp) return 0;
