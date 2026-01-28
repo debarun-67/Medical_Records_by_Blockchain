@@ -1,0 +1,59 @@
+PATIENT ID: HOSP-IND-2025-001589
+PATIENT NAME: Meena Iyer
+AGE: 64
+GENDER: Female
+BLOOD GROUP: AB+
+
+HOSPITAL ID: HOSP-BLR-033
+DOCTOR ID: DR-BLR-ENDO-417
+DOCTOR NAME: Dr. Prakash Rao
+DEPARTMENT: Endocrinology
+
+DATE OF VISIT: 21-03-2025
+TIME: 10:20 AM
+
+----------------------------------
+CHIEF COMPLAINT:
+----------------------------------
+Frequent urination, excessive thirst, fatigue
+
+----------------------------------
+DIAGNOSIS:
+----------------------------------
+Type 2 Diabetes Mellitus
+
+----------------------------------
+VITAL SIGNS:
+----------------------------------
+Blood Pressure: 132/84 mmHg
+Fasting Blood Sugar: 164 mg/dL
+Postprandial Blood Sugar: 242 mg/dL
+HbA1c: 7.8%
+
+----------------------------------
+PRESCRIPTION:
+----------------------------------
+1. Metformin 500 mg – Twice daily
+2. Sitagliptin 100 mg – Once daily
+
+----------------------------------
+DIETARY ADVICE:
+----------------------------------
+- Low sugar diet
+- Regular meal timings
+
+----------------------------------
+FOLLOW-UP:
+----------------------------------
+Monthly blood sugar monitoring
+
+----------------------------------
+DOCTOR NOTES:
+----------------------------------
+Patient educated on glucose monitoring.
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-BLR-ENDO-417
+Signature Timestamp: 21-03-2025 10:50 AM

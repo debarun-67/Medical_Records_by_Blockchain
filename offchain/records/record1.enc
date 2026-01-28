@@ -1,0 +1,85 @@
+PATIENT ID: HOSP-IND-2025-000872
+PATIENT NAME: Rahul Sen
+AGE: 34
+GENDER: Male
+BLOOD GROUP: B+
+
+HOSPITAL ID: HOSP-KOL-014
+DOCTOR ID: DR-KOL-IM-221
+DOCTOR NAME: Dr. Ananya Mukherjee
+DEPARTMENT: Internal Medicine
+
+DATE OF VISIT: 10-03-2025
+TIME: 11:45 AM
+
+----------------------------------
+CHIEF COMPLAINT:
+----------------------------------
+Fever, weakness, dizziness, reduced appetite for 2 days
+
+----------------------------------
+DIAGNOSIS:
+----------------------------------
+Acute viral fever with mild dehydration
+
+----------------------------------
+VITAL SIGNS:
+----------------------------------
+Blood Pressure: 110/70 mmHg
+Heart Rate: 88 bpm
+Respiratory Rate: 18 breaths/min
+Body Temperature: 99.8°F
+Oxygen Saturation (SpO2): 98%
+
+----------------------------------
+LAB INVESTIGATIONS:
+----------------------------------
+Complete Blood Count (CBC):
+- Hemoglobin: 13.8 g/dL
+- Total WBC Count: 9,500 /µL
+- Platelet Count: 2.1 lakh /µL
+
+Serum Electrolytes:
+- Sodium: 134 mmol/L
+- Potassium: 3.9 mmol/L
+
+----------------------------------
+PRESCRIPTION:
+----------------------------------
+1. Paracetamol 500 mg – Twice daily after food
+2. Oral Rehydration Solution (ORS) – As needed
+3. Vitamin C tablets – Once daily
+
+----------------------------------
+TREATMENT PLAN:
+----------------------------------
+- Adequate oral hydration
+- Rest for 48 hours
+- Monitor temperature every 6 hours
+
+----------------------------------
+ALLERGIES:
+----------------------------------
+No known drug allergies
+
+----------------------------------
+PAST MEDICAL HISTORY:
+----------------------------------
+No history of diabetes, hypertension, or asthma
+
+----------------------------------
+FOLLOW-UP:
+----------------------------------
+Review after 3 days if fever persists
+
+----------------------------------
+DOCTOR NOTES:
+----------------------------------
+Patient advised to avoid outside food and maintain hygiene.
+Warning signs explained.
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-KOL-IM-221
+Signature Timestamp: 10-03-2025 12:10 PM

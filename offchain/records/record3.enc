@@ -1,0 +1,68 @@
+PATIENT ID: HOSP-IND-2025-001342
+PATIENT NAME: Arjun Malhotra
+AGE: 52
+GENDER: Male
+BLOOD GROUP: A+
+
+HOSPITAL ID: HOSP-DEL-021
+DOCTOR ID: DR-DEL-CARD-304
+DOCTOR NAME: Dr. Sameer Khanna
+DEPARTMENT: Cardiology
+
+DATE OF VISIT: 18-03-2025
+TIME: 03:10 PM
+
+----------------------------------
+CHIEF COMPLAINT:
+----------------------------------
+Chest discomfort on exertion, shortness of breath
+
+----------------------------------
+DIAGNOSIS:
+----------------------------------
+Stable Angina with Hypertension
+
+----------------------------------
+VITAL SIGNS:
+----------------------------------
+Blood Pressure: 148/92 mmHg
+Heart Rate: 96 bpm
+Oxygen Saturation: 96%
+
+----------------------------------
+INVESTIGATIONS:
+----------------------------------
+ECG:
+- ST depression noted
+
+Echocardiography:
+- Mild left ventricular hypertrophy
+
+----------------------------------
+PRESCRIPTION:
+----------------------------------
+1. Amlodipine 5 mg – Once daily
+2. Aspirin 75 mg – Once daily
+3. Atorvastatin 20 mg – Once daily
+
+----------------------------------
+RISK FACTORS:
+----------------------------------
+- Smoking history (15 years)
+- Sedentary lifestyle
+
+----------------------------------
+FOLLOW-UP:
+----------------------------------
+Review after 2 weeks
+
+----------------------------------
+DOCTOR NOTES:
+----------------------------------
+Lifestyle modification strongly advised.
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-DEL-CARD-304
+Signature Timestamp: 18-03-2025 03:45 PM
