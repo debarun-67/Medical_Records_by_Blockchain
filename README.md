@@ -12,4 +12,3 @@ viewer.exe
 gcc src/validate.c src/blockchain/block.c src/crypto/hash.c -o validate_record
 
 .\validate_record.exe
-

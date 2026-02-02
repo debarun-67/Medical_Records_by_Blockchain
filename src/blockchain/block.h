@@ -26,5 +26,7 @@ typedef struct {
 
 void init_block(Block *block, int index, const char *prev_hash);
 int add_transaction(Block *block, Transaction tx);
+void calculate_block_hash(Block *block);
+
 
 #endif
