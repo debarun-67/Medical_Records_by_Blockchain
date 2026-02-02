@@ -1,20 +1,148 @@
-#include <string.h>
 #include <stdio.h>
-#include "hash.h"
+#include <stdlib.h>
+#include <string.h>
+
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/err.h>
+
 #include "signature.h"
 
-void sign_data(const char *data, const char *private_key, char signature[65]) {
-    char buffer[256];
-    snprintf(buffer, sizeof(buffer), "%s%s", data, private_key);
-    sha256(buffer, signature);
+/* Convert binary to hex */
+void bin_to_hex(const unsigned char *bin, size_t len, char *hex)
+{
+    for (size_t i = 0; i < len; i++)
+        sprintf(hex + (i * 2), "%02x", bin[i]);
+
+    hex[len * 2] = '\0';
 }
 
-int verify_signature(const char *data, const char *public_key, const char *signature) {
-    char expected[65];
-    char buffer[256];
+/* Convert hex to binary */
+int hex_to_bin(const char *hex, unsigned char *bin)
+{
+    size_t len = strlen(hex);
+    if (len % 2 != 0)
+        return 0;
 
-    snprintf(buffer, sizeof(buffer), "%s%s", data, public_key);
-    sha256(buffer, expected);
+    for (size_t i = 0; i < len / 2; i++)
+        sscanf(hex + 2*i, "%2hhx", &bin[i]);
 
-    return strcmp(expected, signature) == 0;
+    return len / 2;
+}
+
+/* SIGN using EVP (modern OpenSSL) */
+int sign_data(const char *data,
+              const char *private_key_path,
+              char signature_hex[513])
+{
+    FILE *fp = fopen(private_key_path, "r");
+    if (!fp)
+    {
+        printf("ERROR: Cannot open private key file\n");
+        return 0;
+    }
+
+    EVP_PKEY *pkey = PEM_read_PrivateKey(fp, NULL, NULL, NULL);
+    fclose(fp);
+
+    if (!pkey)
+    {
+        printf("ERROR: Failed to load private key\n");
+        return 0;
+    }
+
+    EVP_MD_CTX *ctx = EVP_MD_CTX_new();
+    if (!ctx)
+    {
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
+
+    if (EVP_DigestSignInit(ctx, NULL, EVP_sha256(), NULL, pkey) <= 0)
+    {
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
+
+    if (EVP_DigestSignUpdate(ctx, data, strlen(data)) <= 0)
+    {
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
+
+    size_t sig_len;
+    EVP_DigestSignFinal(ctx, NULL, &sig_len);
+
+    unsigned char *sig = malloc(sig_len);
+
+    if (EVP_DigestSignFinal(ctx, sig, &sig_len) <= 0)
+    {
+        free(sig);
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
+
+    bin_to_hex(sig, sig_len, signature_hex);
+
+    free(sig);
+    EVP_MD_CTX_free(ctx);
+    EVP_PKEY_free(pkey);
+
+    return 1;
+}
+
+/* VERIFY using EVP */
+int verify_signature(const char *data,
+                     const char *public_key_path,
+                     const char *signature_hex)
+{
+    FILE *fp = fopen(public_key_path, "r");
+    if (!fp)
+    {
+        printf("ERROR: Cannot open public key file\n");
+        return 0;
+    }
+
+    EVP_PKEY *pkey = PEM_read_PUBKEY(fp, NULL, NULL, NULL);
+    fclose(fp);
+
+    if (!pkey)
+    {
+        printf("ERROR: Failed to load public key\n");
+        return 0;
+    }
+
+    EVP_MD_CTX *ctx = EVP_MD_CTX_new();
+    if (!ctx)
+    {
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
+
+    if (EVP_DigestVerifyInit(ctx, NULL, EVP_sha256(), NULL, pkey) <= 0)
+    {
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
+
+    if (EVP_DigestVerifyUpdate(ctx, data, strlen(data)) <= 0)
+    {
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
+
+    unsigned char sig_bin[512];
+    int sig_len = hex_to_bin(signature_hex, sig_bin);
+
+    int result = EVP_DigestVerifyFinal(ctx, sig_bin, sig_len);
+
+    EVP_MD_CTX_free(ctx);
+    EVP_PKEY_free(pkey);
+
+    return result == 1;
 }

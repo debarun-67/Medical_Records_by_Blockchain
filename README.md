@@ -12,3 +12,34 @@ viewer.exe
 gcc src/validate.c src/blockchain/block.c src/crypto/hash.c -o validate_record
 
 .\validate_record.exe
+
+
+gcc -g \
+src/test_node.c \
+src/network/node.c \
+src/network/protocol.c \
+src/network/serializer.c \
+src/network/proposal.c \
+src/network/sync.c \
+src/blockchain/blockchain.c \
+src/blockchain/block.c \
+src/crypto/hash.c \
+src/crypto/signature.c \
+-o node_app \
+-lpthread -lcrypto
+
+
+./node_app 8001 8002 8003
+./node_app 8002 8001 8003
+./node_app 8003 8001 8002
+
+add record1.enc
+
+for generating keys:
+openssl genrsa -out keys/8001_private.pem 2048
+openssl rsa -in keys/8001_private.pem -pubout -out keys/8001_public.pem
+
+
+gcc src/generate_keys.c -o generate_keys -lcrypto
+
+./generate_keys 8001 8002 8003

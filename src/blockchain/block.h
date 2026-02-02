@@ -3,7 +3,7 @@
 
 #include <time.h>
 
-#define HASH_SIZE 65
+#define HASH_SIZE 513
 #define MAX_TRANSACTIONS 5
 
 typedef struct {
@@ -20,6 +20,7 @@ typedef struct {
     char previous_hash[HASH_SIZE];
     char block_hash[HASH_SIZE];
     char validator_signature[HASH_SIZE];
+    int validator_port;
     Transaction transactions[MAX_TRANSACTIONS];
     int transaction_count;
 } Block;

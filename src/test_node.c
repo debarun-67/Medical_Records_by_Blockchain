@@ -42,12 +42,11 @@ int main(int argc, char *argv[])
     /* =====================================
        1️⃣  SET PER-NODE BLOCKCHAIN FILE
     ===================================== */
-    char filename[128];
-    snprintf(filename, sizeof(filename),
-             "data/blockchain_%d.dat",
-             own_port);
+    char chain_filename[128];
+    snprintf(chain_filename, sizeof(chain_filename),
+             "data/blockchain_%d.dat", own_port);
 
-    set_blockchain_file(filename);
+    set_blockchain_file(chain_filename);
 
     /* =====================================
        2️⃣  CREATE GENESIS IF NEEDED
@@ -60,8 +59,8 @@ int main(int argc, char *argv[])
 
         Block genesis;
         memset(&genesis, 0, sizeof(Block));
-
-        create_genesis_block(&genesis);
+        genesis.validator_port = own_port;
+        create_genesis_block(&genesis, own_port);
         add_block(&genesis);
     }
 
@@ -71,7 +70,7 @@ int main(int argc, char *argv[])
     pthread_t server_thread;
     pthread_create(&server_thread, NULL, server_runner, &own_port);
 
-    sleep(1); // allow server to start
+    sleep(1);
 
     /* =====================================
        4️⃣  CONNECT TO PEERS
@@ -86,7 +85,7 @@ int main(int argc, char *argv[])
         connect_to_peer("127.0.0.1", peer_port);
     }
 
-    sleep(2); // allow connections to stabilize
+    sleep(2);
 
     /* =====================================
        5️⃣  INITIATE SYNC
@@ -105,17 +104,17 @@ int main(int argc, char *argv[])
 
         input[strcspn(input, "\r\n")] = 0;
 
-        /* -------------------------------
-           ADD BLOCK COMMAND
-        -------------------------------- */
+        /* =====================================================
+           ADD <filename>
+        ===================================================== */
         if (strncmp(input, "ADD ", 4) == 0)
         {
-            char filename[256];
-            sscanf(input + 4, "%s", filename);
+            char record_filename[256];
+            sscanf(input + 4, "%255s", record_filename);
 
             char filepath[512];
             snprintf(filepath, sizeof(filepath),
-                     "offchain/records/%s", filename);
+                     "offchain/records/%s", record_filename);
 
             FILE *fp = fopen(filepath, "rb");
             if (!fp)
@@ -124,28 +123,50 @@ int main(int argc, char *argv[])
                 continue;
             }
 
-            /* Read entire file */
+            /* Read file safely */
             fseek(fp, 0, SEEK_END);
             long filesize = ftell(fp);
             rewind(fp);
 
+            if (filesize <= 0)
+            {
+                printf("ERROR: Empty file.\n");
+                fclose(fp);
+                continue;
+            }
+
             char *file_buffer = malloc(filesize + 1);
+            if (!file_buffer)
+            {
+                printf("ERROR: Memory allocation failed.\n");
+                fclose(fp);
+                continue;
+            }
+
             fread(file_buffer, 1, filesize, fp);
             file_buffer[filesize] = '\0';
             fclose(fp);
 
-            /* Compute SHA256 of file contents */
+            /* Compute SHA256 of file */
             char file_hash[HASH_SIZE];
             sha256(file_buffer, file_hash);
             free(file_buffer);
 
-            Block last_block;
-            if (!get_last_block(&last_block))
+            /* Prevent duplicate medical record */
+            if (transaction_hash_exists(file_hash))
             {
-                printf("No genesis found.\n");
+                printf("Duplicate record detected. Block not proposed.\n");
                 continue;
             }
 
+            Block last_block;
+            if (!get_last_block(&last_block))
+            {
+                printf("ERROR: No genesis block found.\n");
+                continue;
+            }
+
+            /* Create new block */
             Block new_block;
             memset(&new_block, 0, sizeof(Block));
 
@@ -163,24 +184,30 @@ int main(int argc, char *argv[])
 
             new_block.transactions[0].timestamp = time(NULL);
 
+            /* Compute block hash */
             calculate_block_hash(&new_block);
 
-            if (transaction_hash_exists(new_block.transactions[0].data_hash))
+            /* Assign validator identity */
+            new_block.validator_port = own_port;
+
+            /* Sign block using RSA private key */
+            char private_key_path[64];
+            snprintf(private_key_path, sizeof(private_key_path),
+                     "keys/%d_private.pem", own_port);
+
+            if (!sign_data(new_block.block_hash,
+                           private_key_path,
+                           new_block.validator_signature))
             {
-                printf("Duplicate record. Block not proposed.\n");
+                printf("ERROR: Signing failed.\n");
                 continue;
             }
 
-            sign_data(new_block.block_hash,
-                      "hospital_private_key",
-                      new_block.validator_signature);
-
             printf("Proposing block %d for file %s\n",
-                   new_block.index, filename);
+                   new_block.index, record_filename);
 
             propose_block(&new_block);
         }
-
         else
         {
             broadcast_message(input);

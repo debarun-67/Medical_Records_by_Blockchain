@@ -7,6 +7,7 @@
 #include "node.h"
 #include "protocol.h"
 #include "proposal.h"
+#include "../crypto/signature.h"
 #include "serializer.h"
 #include "sync.h"
 #include "../blockchain/blockchain.h"
@@ -195,61 +196,106 @@ void protocol_dispatch(int client_socket, const char *message)
     ========================================== */
 
     if (strncmp(clean_message, "PROPOSE_BLOCK:", 14) == 0)
-    {
-        if (syncing)
-        {
-            send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
-            return;
-        }
-
-        Block incoming;
-        memset(&incoming, 0, sizeof(Block));
-
-        if (!deserialize_block(clean_message + 14, &incoming))
-        {
-            send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
-            return;
-        }
-
-        /* 0️⃣ Reject duplicate medical record */
-if (transaction_hash_exists(incoming.transactions[0].data_hash))
 {
-    printf("Duplicate medical record detected.\n");
-    send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
-    return;
-}
-
-
-        Block last_block;
-
-        if (!get_last_block(&last_block))
-        {
-            send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
-            return;
-        }
-
-        if (incoming.index != last_block.index + 1)
-        {
-            send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
-            return;
-        }
-
-        if (strcmp(incoming.previous_hash,
-                   last_block.block_hash) != 0)
-        {
-            send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
-            return;
-        }
-
-        if (!verify_blockchain())
-        {
-            send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
-            return;
-        }
-
-        send(client_socket, "BLOCK_VOTE:APPROVE\n", 19, 0);
+    if (syncing)
+    {
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
         return;
     }
+
+    Block incoming;
+    memset(&incoming, 0, sizeof(Block));
+
+    if (!deserialize_block(clean_message + 14, &incoming))
+    {
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
+        return;
+    }
+
+    /* =====================================================
+       1️⃣ Reject duplicate medical record
+    ===================================================== */
+    if (transaction_hash_exists(incoming.transactions[0].data_hash))
+    {
+        printf("Duplicate medical record detected.\n");
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
+        return;
+    }
+
+    /* =====================================================
+       2️⃣ Recompute block hash and verify integrity
+    ===================================================== */
+    char original_hash[HASH_SIZE];
+    strcpy(original_hash, incoming.block_hash);
+
+    calculate_block_hash(&incoming);
+
+    if (strcmp(original_hash, incoming.block_hash) != 0)
+    {
+        printf("Block hash tampered.\n");
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
+        return;
+    }
+
+    /* =====================================================
+       3️⃣ Verify RSA Signature
+    ===================================================== */
+    char public_key_path[64];
+    snprintf(public_key_path, sizeof(public_key_path),
+             "keys/%d_public.pem",
+             incoming.validator_port);
+
+    if (!verify_signature(original_hash,
+                          public_key_path,
+                          incoming.validator_signature))
+    {
+        printf("Signature verification failed.\n");
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
+        return;
+    }
+
+    /* =====================================================
+       4️⃣ Check chain extension
+    ===================================================== */
+    Block last_block;
+
+    if (!get_last_block(&last_block))
+    {
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
+        return;
+    }
+
+    if (incoming.index != last_block.index + 1)
+    {
+        printf("Index mismatch.\n");
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
+        return;
+    }
+
+    if (strcmp(incoming.previous_hash,
+               last_block.block_hash) != 0)
+    {
+        printf("Previous hash mismatch.\n");
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
+        return;
+    }
+
+    /* =====================================================
+       5️⃣ Verify entire local chain integrity
+    ===================================================== */
+    if (!verify_blockchain())
+    {
+        printf("Local chain corrupted.\n");
+        send(client_socket, "BLOCK_VOTE:REJECT\n", 18, 0);
+        return;
+    }
+
+    /* =====================================================
+       ✅ Everything valid
+    ===================================================== */
+    send(client_socket, "BLOCK_VOTE:APPROVE\n", 19, 0);
+    return;
+}
 
     /* Ignore others */
 }

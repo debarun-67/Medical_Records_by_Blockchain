@@ -4,7 +4,7 @@
 #include "blockchain/block.h"
 
 int main() {
-    FILE *fp = fopen("data/blockchain.dat", "rb");
+    FILE *fp = fopen("data/blockchain_8001.dat", "rb");
     if (!fp) {
         printf("Blockchain file not found.\n");
         return 1;
