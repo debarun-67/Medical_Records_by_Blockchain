@@ -8,7 +8,7 @@
 
 #include "signature.h"
 
-/* Convert binary to hex */
+// binary to hex string
 void bin_to_hex(const unsigned char *bin, size_t len, char *hex)
 {
     for (size_t i = 0; i < len; i++)
@@ -17,7 +17,7 @@ void bin_to_hex(const unsigned char *bin, size_t len, char *hex)
     hex[len * 2] = '\0';
 }
 
-/* Convert hex to binary */
+// hex string to binary
 int hex_to_bin(const char *hex, unsigned char *bin)
 {
     size_t len = strlen(hex);
@@ -30,7 +30,7 @@ int hex_to_bin(const char *hex, unsigned char *bin)
     return len / 2;
 }
 
-/* SIGN using EVP */
+// sign data using OpenSSL EVP
 int sign_data(const char *data,
               const char *private_key_path,
               char signature_hex[513])
@@ -100,7 +100,7 @@ int sign_data(const char *data,
     return 1;
 }
 
-/* VERIFY using EVP */
+// verify signature using OpenSSL EVP
 int verify_signature(const char *data,
                      const char *public_key_path,
                      const char *signature_hex)

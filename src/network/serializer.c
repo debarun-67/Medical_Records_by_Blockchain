@@ -4,32 +4,26 @@
 
 #include "serializer.h"
 
-/* ---------------------------------
-   Serialize Block
----------------------------------- */
+// serialize block to string
 void serialize_block(Block *block, char *buffer)
 {
     buffer[0] = '\0';
-
     char line[4096];
 
-    /*
-      Header Format:
-      index|timestamp|previous_hash|block_hash|validator_port|signature|tx_count~
-    */
+    // header format: index|time|prev|hash|port|sig|count
     snprintf(line, sizeof(line),
              "%d|%ld|%s|%s|%d|%s|%d~",
              block->index,
              block->timestamp,
              block->previous_hash,
              block->block_hash,
-             block->validator_port,          // ✅ included
+             block->validator_port,          // included
              block->validator_signature,
              block->transaction_count);
 
     strncat(buffer, line, SERIALIZED_BLOCK_SIZE - strlen(buffer) - 1);
 
-    /* Transactions */
+    // serialize transactions
     for (int i = 0; i < block->transaction_count; i++)
     {
         snprintf(line, sizeof(line),
@@ -46,9 +40,7 @@ void serialize_block(Block *block, char *buffer)
     strncat(buffer, "END_BLOCK~", SERIALIZED_BLOCK_SIZE - strlen(buffer) - 1);
 }
 
-/* ---------------------------------
-   Deserialize Block
----------------------------------- */
+// parse block from string
 int deserialize_block(const char *buffer, Block *block)
 {
     memset(block, 0, sizeof(Block));
@@ -59,21 +51,18 @@ int deserialize_block(const char *buffer, Block *block)
 
     char *line = strtok(copy, "~");
 
-    /* ---------- Parse Header ---------- */
+    // parse header fields
     if (!line)
         return 0;
 
-    /*
-      Expected Header:
-      index|timestamp|previous_hash|block_hash|validator_port|signature|tx_count
-    */
+    // expected: index|timestamp|previous_hash|block_hash|validator_port|signature|tx_count
     if (sscanf(line,
                "%d|%ld|%64[^|]|%64[^|]|%d|%512[^|]|%d",
                &block->index,
                &block->timestamp,
                block->previous_hash,
                block->block_hash,
-               &block->validator_port,        // ✅ parsed
+               &block->validator_port,        // parsed
                block->validator_signature,
                &block->transaction_count) != 7)
         return 0;
@@ -82,7 +71,7 @@ int deserialize_block(const char *buffer, Block *block)
         block->transaction_count > MAX_TRANSACTIONS)
         return 0;
 
-    /* ---------- Parse Transactions ---------- */
+    // parse transaction fields
     int tx_index = 0;
 
     while ((line = strtok(NULL, "~")) != NULL)
@@ -108,7 +97,7 @@ int deserialize_block(const char *buffer, Block *block)
         }
     }
 
-    /* Final sanity check */
+    // verify transaction count
     if (tx_index != block->transaction_count)
         return 0;
 

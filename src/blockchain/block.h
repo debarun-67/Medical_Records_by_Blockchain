@@ -7,10 +7,10 @@
 #define MAX_TRANSACTIONS 5
 
 typedef struct {
-    char patient_id[32];        // pseudonymized
+    char patient_id[32];        // privacy first
     char doctor_id[32];
-    char data_hash[HASH_SIZE];  // hash of encrypted file
-    char data_pointer[128];     // file:// or ipfs://
+    char data_hash[HASH_SIZE];  // hash for validation
+    char data_pointer[128];     // location of the record
     time_t timestamp;
 } Transaction;
 

@@ -27,7 +27,7 @@ int generate_keypair_for_port(int port)
     snprintf(public_path, sizeof(public_path),
              "keys/%d_public.pem", port);
 
-    /* Create context for RSA key generation */
+    // rsa context setup
     ctx = EVP_PKEY_CTX_new_from_name(NULL, "RSA", NULL);
     if (!ctx)
     {
@@ -42,7 +42,7 @@ int generate_keypair_for_port(int port)
         return 0;
     }
 
-    /* Set key size to 2048 */
+    // set size to 2048
     if (EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, 2048) <= 0)
     {
         printf("Failed to set RSA bits\n");
@@ -50,7 +50,7 @@ int generate_keypair_for_port(int port)
         return 0;
     }
 
-    /* Generate key */
+    // key generation
     if (EVP_PKEY_keygen(ctx, &pkey) <= 0)
     {
         printf("Key generation failed\n");
@@ -60,7 +60,7 @@ int generate_keypair_for_port(int port)
 
     EVP_PKEY_CTX_free(ctx);
 
-    /* Write private key */
+    // store private key
     FILE *fp = fopen(private_path, "w");
     if (!fp)
     {
@@ -72,7 +72,7 @@ int generate_keypair_for_port(int port)
     PEM_write_PrivateKey(fp, pkey, NULL, NULL, 0, NULL, NULL);
     fclose(fp);
 
-    /* Write public key */
+    // store public key
     fp = fopen(public_path, "w");
     if (!fp)
     {

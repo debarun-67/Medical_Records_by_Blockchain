@@ -12,17 +12,13 @@
 #include "sync.h"
 #include "../blockchain/blockchain.h"
 
-/* ===============================
-   GLOBAL SYNC STATE
-================================= */
+// sync state tracking
 
 static int sync_socket = -1;
 static int sync_target_height = 0;
 static int syncing = 0;
 
-/* =========================================================
-   PROTOCOL DISPATCH
-========================================================= */
+// dispatch incoming messages
 
 void protocol_dispatch(int client_socket, const char *message)
 {
@@ -31,7 +27,7 @@ void protocol_dispatch(int client_socket, const char *message)
 
     strncpy(clean_message, message, BUFFER_SIZE - 1);
 
-    /* Remove newline safely */
+    // sanitize message
     size_t len = strlen(clean_message);
     while (len > 0 &&
           (clean_message[len - 1] == '\n' ||
@@ -41,9 +37,7 @@ void protocol_dispatch(int client_socket, const char *message)
         len--;
     }
 
-    /* =========================================
-       BLOCK VOTE
-    ========================================== */
+    // handle vote message
     if (strncmp(clean_message, "BLOCK_VOTE:", 11) == 0)
     {
         printf("[CONSENSUS] Vote received: %s\n", clean_message + 11);
@@ -51,9 +45,7 @@ void protocol_dispatch(int client_socket, const char *message)
         return;
     }
 
-    /* =========================================
-       COMMIT BLOCK
-    ========================================== */
+    // handle commit message
     if (strncmp(clean_message, "COMMIT_BLOCK:", 13) == 0)
     {
         printf("[CONSENSUS] Commit instruction received.\n");
@@ -61,9 +53,7 @@ void protocol_dispatch(int client_socket, const char *message)
         return;
     }
 
-    /* =========================================
-       CHAIN HEIGHT RESPONSE
-    ========================================== */
+    // handle height response
     if (strncmp(clean_message, "CHAIN_HEIGHT:", 13) == 0)
     {
         int peer_height = atoi(clean_message + 13);
@@ -88,9 +78,7 @@ void protocol_dispatch(int client_socket, const char *message)
         return;
     }
 
-    /* =========================================
-       SYNC BLOCK
-    ========================================== */
+    // handle block sync
     if (strncmp(clean_message, "SYNC_BLOCK:", 11) == 0)
     {
         if (!syncing || client_socket != sync_socket)
@@ -147,9 +135,7 @@ void protocol_dispatch(int client_socket, const char *message)
         return;
     }
 
-    /* =========================================
-       REQUEST TYPES
-    ========================================== */
+    // handle data requests
 
     if (strcmp(clean_message, "GET_HEIGHT") == 0)
     {
@@ -184,9 +170,7 @@ void protocol_dispatch(int client_socket, const char *message)
         return;
     }
 
-    /* =========================================
-       PROPOSE BLOCK
-    ========================================== */
+    // handle block proposal
     if (strncmp(clean_message, "PROPOSE_BLOCK:", 14) == 0)
     {
         Block incoming;

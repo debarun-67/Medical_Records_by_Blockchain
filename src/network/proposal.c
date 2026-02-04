@@ -7,9 +7,7 @@
 #include "node.h"
 #include "../blockchain/blockchain.h"
 
-/* -------------------------
-   Proposal State
--------------------------- */
+// proposal state management
 
 static Block current_proposal;
 static int proposal_active = 0;
@@ -17,9 +15,7 @@ static int approve_votes = 0;
 static pthread_mutex_t vote_lock = PTHREAD_MUTEX_INITIALIZER;
 
 
-/* -------------------------
-   Propose Block
--------------------------- */
+// initiate block proposal
 void propose_block(Block *block)
 {
     pthread_mutex_lock(&vote_lock);
@@ -27,7 +23,7 @@ void propose_block(Block *block)
     current_proposal = *block;
     proposal_active = 1;
 
-    /* Count self vote */
+    // local vote counts
     approve_votes = 1;
 
     pthread_mutex_unlock(&vote_lock);
@@ -47,9 +43,7 @@ void propose_block(Block *block)
 }
 
 
-/* -------------------------
-   Register Vote
--------------------------- */
+// count incoming votes
 void register_vote(const char *vote)
 {
     pthread_mutex_lock(&vote_lock);
@@ -95,9 +89,7 @@ void register_vote(const char *vote)
 }
 
 
-/* -------------------------
-   Handle Commit
--------------------------- */
+// finalize block commit
 void handle_commit(const char *serialized)
 {
     Block incoming;

@@ -15,9 +15,7 @@
 #include "../src/crypto/hash.h"
 #include "../src/crypto/signature.h"
 
-/* =========================================
-   SERVER THREAD
-========================================= */
+// server thread
 void *server_runner(void *arg)
 {
     int port = *(int *)arg;
@@ -25,9 +23,7 @@ void *server_runner(void *arg)
     return NULL;
 }
 
-/* =========================================
-   MAIN BENCHMARK
-========================================= */
+// main benchmark loop
 int main(int argc, char *argv[])
 {
     if (argc < 3)
@@ -44,14 +40,14 @@ int main(int argc, char *argv[])
     printf("Blocks to Commit: %d\n", block_count);
     printf("====================================\n");
 
-    /* Set blockchain file */
+    // set blockchain file path
     char chain_filename[128];
     snprintf(chain_filename, sizeof(chain_filename),
              "data/blockchain_%d.dat", own_port);
 
     set_blockchain_file(chain_filename);
 
-    /* Create genesis if needed */
+    // initialize genesis block
     Block last_block;
     if (!get_last_block(&last_block))
     {
@@ -62,13 +58,13 @@ int main(int argc, char *argv[])
         add_block(&genesis);
     }
 
-    /* Start server */
+    // launch network server
     pthread_t server_thread;
     pthread_create(&server_thread, NULL, server_runner, &own_port);
 
     sleep(1);
 
-    /* Connect peers */
+    // connect to known peers
     for (int i = 3; i < argc; i++)
     {
         int peer_port = atoi(argv[i]);
@@ -81,9 +77,7 @@ int main(int argc, char *argv[])
     initiate_chain_sync();
     sleep(2);
 
-    /* ===============================
-       START BENCHMARK TIMER
-    =============================== */
+    // start benchmarking
 
     struct timespec start, end;
     clock_gettime(CLOCK_MONOTONIC, &start);
@@ -141,7 +135,7 @@ int main(int argc, char *argv[])
 
         propose_block(&new_block);
 
-        /* WAIT FOR COMMIT */
+        // wait for block finalization
         while (1)
         {
             Block check_block;

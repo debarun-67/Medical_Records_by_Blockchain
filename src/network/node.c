@@ -14,9 +14,7 @@ Peer peers[MAX_PEERS];
 int peer_count = 0;
 pthread_mutex_t peer_lock = PTHREAD_MUTEX_INITIALIZER;
 
-/* =========================
-   Find Peer Index
-========================= */
+// get peer index from socket
 int find_peer_by_socket(int socket)
 {
     for (int i = 0; i < MAX_PEERS; i++)
@@ -27,9 +25,7 @@ int find_peer_by_socket(int socket)
     return -1;
 }
 
-/* =========================
-   Remove Peer Safely
-========================= */
+// disconnect and remove peer
 void remove_peer(int socket)
 {
     pthread_mutex_lock(&peer_lock);
@@ -47,9 +43,7 @@ void remove_peer(int socket)
     pthread_mutex_unlock(&peer_lock);
 }
 
-/* =========================
-   Update Last Seen
-========================= */
+// update peer timestamp
 void update_peer_last_seen(int socket)
 {
     pthread_mutex_lock(&peer_lock);
@@ -63,18 +57,14 @@ void update_peer_last_seen(int socket)
     pthread_mutex_unlock(&peer_lock);
 }
 
-/* =========================
-   MESSAGE HANDLER
-========================= */
+// process incoming message
 void handle_message(int client_socket, const char *message)
 {
     update_peer_last_seen(client_socket);
     protocol_dispatch(client_socket, message);
 }
 
-/* =========================
-   CLIENT THREAD
-========================= */
+// handle client connection
 void *client_thread(void *arg)
 {
     int client_socket = *(int *)arg;
@@ -90,7 +80,7 @@ void *client_thread(void *arg)
     {
         int bytes = recv(client_socket, buffer, BUFFER_SIZE - 1, 0);
 
-        /* DISCONNECT OR ERROR */
+        // connection lost
         if (bytes <= 0)
         {
             if (bytes == 0)
@@ -117,7 +107,7 @@ void *client_thread(void *arg)
 
             message_buffer[message_len] = '\0';
 
-            /* FULL BLOCK RECEIVED */
+            // block transmission complete
             if (strstr(message_buffer, "~END_BLOCK~") != NULL)
             {
                 handle_message(client_socket, message_buffer);
@@ -126,7 +116,7 @@ void *client_thread(void *arg)
                 continue;
             }
 
-            /* SIMPLE LINE MESSAGE */
+            // single line message
             if (buffer[i] == '\n')
             {
                 handle_message(client_socket, message_buffer);
@@ -139,9 +129,7 @@ void *client_thread(void *arg)
     return NULL;
 }
 
-/* =========================
-   START SERVER
-========================= */
+// start listening for peers
 void start_server(int port)
 {
     int server_fd;
@@ -217,9 +205,7 @@ void start_server(int port)
     }
 }
 
-/* =========================
-   CONNECT TO PEER
-========================= */
+// connect to a remote peer
 void connect_to_peer(const char *ip, int port)
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -268,9 +254,7 @@ void connect_to_peer(const char *ip, int port)
     pthread_detach(thread_id);
 }
 
-/* =========================
-   BROADCAST
-========================= */
+// send message to all peers
 void broadcast_message(const char *message)
 {
     pthread_mutex_lock(&peer_lock);
@@ -286,9 +270,7 @@ void broadcast_message(const char *message)
     pthread_mutex_unlock(&peer_lock);
 }
 
-/* =========================
-   PEER COUNT
-========================= */
+// active peer count
 int get_peer_count()
 {
     pthread_mutex_lock(&peer_lock);

@@ -16,9 +16,7 @@
 #include "crypto/hash.h"
 #include "crypto/signature.h"
 
-/* =========================================
-   SERVER THREAD
-========================================= */
+// server thread handler
 void *server_runner(void *arg)
 {
     int port = *(int *)arg;
@@ -26,9 +24,7 @@ void *server_runner(void *arg)
     return NULL;
 }
 
-/* =========================================
-   PRINT BLOCK DETAILS
-========================================= */
+// print block content
 void print_block(Block *block)
 {
     printf("--------------------------------------------------\n");
@@ -51,9 +47,7 @@ void print_block(Block *block)
     printf("--------------------------------------------------\n");
 }
 
-/* =========================================
-   MAIN
-========================================= */
+// main entry point
 int main(int argc, char *argv[])
 {
     if (argc < 2)
@@ -104,9 +98,7 @@ int main(int argc, char *argv[])
     printf("[SYNC] Initiating chain synchronization...\n");
     initiate_chain_sync();
 
-    /* =========================================
-       INTERACTIVE LOOP
-    ========================================= */
+    // interactive command loop
     while (1)
     {
         char input[256];
@@ -116,7 +108,7 @@ int main(int argc, char *argv[])
 
         input[strcspn(input, "\r\n")] = 0;
 
-        /* ---------------- ADD ---------------- */
+        // add command
         if (strncmp(input, "ADD ", 4) == 0)
         {
             char record_filename[256];
@@ -190,20 +182,20 @@ int main(int argc, char *argv[])
             propose_block(&new_block);
         }
 
-        /* ---------------- HEIGHT ---------------- */
+        // height command
         else if (strcmp(input, "HEIGHT") == 0)
         {
             printf("[CHAIN] Height: %d\n", get_blockchain_height());
         }
 
-        /* ---------------- LAST ---------------- */
+        // last block command
         else if (strcmp(input, "LAST") == 0)
         {
             if (get_last_block(&last_block))
                 print_block(&last_block);
         }
 
-        /* ---------------- PRINT ---------------- */
+        // print block command
         else if (strncmp(input, "PRINT ", 6) == 0)
         {
             int index = atoi(input + 6);
@@ -215,7 +207,7 @@ int main(int argc, char *argv[])
                 printf("[CHAIN] Block not found.\n");
         }
 
-        /* ---------------- VERIFY ---------------- */
+        // verify chain command
         else if (strcmp(input, "VERIFY") == 0)
         {
             if (verify_blockchain())
@@ -224,20 +216,20 @@ int main(int argc, char *argv[])
                 printf("[VERIFY] Blockchain integrity: CORRUPTED\n");
         }
 
-        /* ---------------- PEERS ---------------- */
+        // list peers command
         else if (strcmp(input, "PEERS") == 0)
         {
             printf("[NETWORK] Connected Peers: %d\n", get_peer_count());
         }
 
-        /* ---------------- SYNC ---------------- */
+        // sync chain command
         else if (strcmp(input, "SYNC") == 0)
         {
             printf("[SYNC] Manual sync triggered.\n");
             initiate_chain_sync();
         }
 
-        /* ---------------- HASH ---------------- */
+        // hash file command
         else if (strncmp(input, "HASH ", 5) == 0)
         {
             char filename[256];
@@ -270,7 +262,7 @@ int main(int argc, char *argv[])
             printf("[HASH] %s\n", hash);
         }
 
-        /* ---------------- CHECKDUP ---------------- */
+        // check duplicate command
         else if (strncmp(input, "CHECKDUP ", 9) == 0)
         {
             char filename[256];
@@ -306,7 +298,7 @@ int main(int argc, char *argv[])
                 printf("[CHAIN] Record not found in blockchain.\n");
         }
 
-        /* ---------------- CHECKSIG ---------------- */
+        // check signature command
         else if (strncmp(input, "CHECKSIG ", 9) == 0)
         {
             int index = atoi(input + 9);
@@ -330,14 +322,14 @@ int main(int argc, char *argv[])
                 printf("[CRYPTO] Signature INVALID.\n");
         }
 
-        /* ---------------- STATS ---------------- */
+        // stats command
         else if (strcmp(input, "STATS") == 0)
         {
             printf("[STATS] Height: %d\n", get_blockchain_height());
             printf("[STATS] Connected Peers: %d\n", get_peer_count());
         }
 
-        /* ---------------- HELP ---------------- */
+        // help command
         else if (strcmp(input, "HELP") == 0)
         {
             printf("Available Commands:\n");

@@ -5,20 +5,16 @@
 #include "node.h"
 #include "../blockchain/blockchain.h"
 
-/* =========================
-   INITIAL SYNC
-========================= */
+// start chain sync
 void initiate_chain_sync()
 {
     printf("[SYNC] Initiating chain synchronization...\n");
 
-    /* Step 1: Ask all peers their height */
+    // query peers for height
     broadcast_message("GET_HEIGHT\n");
 }
 
-/* =========================
-   FORCE FULL RESYNC
-========================= */
+// request full chain download
 void force_full_resync(int client_socket)
 {
     printf("[SYNC] Forcing full chain resynchronization...\n");
@@ -35,9 +31,7 @@ void force_full_resync(int client_socket)
     }
 }
 
-/* =========================
-   HANDLE SYNC MISMATCH
-========================= */
+// resolve sync conflict
 void handle_sync_mismatch(int client_socket)
 {
     printf("[SYNC] Chain mismatch detected. Requesting updated height.\n");

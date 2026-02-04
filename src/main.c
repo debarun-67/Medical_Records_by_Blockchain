@@ -46,11 +46,6 @@ int hash_file(const char *filename, char *output_hash) {
     return 1;
 }
 
-
-
-
-
-
 int record_exists(const char *data_hash) {
     FILE *fp = fopen("data/blockchain.dat", "rb");
     if (!fp) return 0;
@@ -69,29 +64,27 @@ int record_exists(const char *data_hash) {
     return 0;
 }
 
-/* ------------------------------------
-   MAIN
------------------------------------- */
+// main entry point
 int main() {
     printf("Blockchain starting...\n");
 
     Block last_block;
     int has_chain = get_last_block(&last_block);
 
-    /* -------- Genesis handling -------- */
+    // handle genesis block if chain is empty
     if (!has_chain) {
         printf("No blockchain found. Creating genesis block...\n");
         create_genesis_block(&last_block);
         add_block(&last_block);
 
-        /* 🔴 CRITICAL FIX: reload last block */
+        // reload to ensure we have the latest state
         get_last_block(&last_block);
     }
 
     Transaction tx;
     char record_name[128];
 
-    /* Controlled demo metadata */
+    // setting up demo metadata
     strcpy(tx.patient_id, "HOSP-IND-2025-001124");
     strcpy(tx.doctor_id, "DR-KOL-GYN-118");
 
@@ -104,12 +97,12 @@ int main() {
              OFFCHAIN_DIR,
              record_name);
 
-    /* Hash encrypted file */
+    // hash the file content
     if (!hash_file(tx.data_pointer, tx.data_hash)) {
         return 1;
     }
 
-    /* Prevent duplicate insertion */
+    // avoid duplicates
     if (record_exists(tx.data_hash)) {
         printf("ERROR: This medical record already exists in the blockchain.\n");
         return 0;
@@ -117,12 +110,12 @@ int main() {
 
     tx.timestamp = time(NULL);
 
-    /* -------- Create block -------- */
+    // create new block
     Block block;
     init_block(&block, last_block.index + 1, last_block.block_hash);
     add_transaction(&block, tx);
 
-    /* Hash + Proof of Authority */
+    // calculate hash and sign the block
     sha256(tx.data_hash, block.block_hash);
     sign_data(block.block_hash,
               "hospital_private_key",
@@ -131,7 +124,7 @@ int main() {
     add_block(&block);
     printf("Medical record block added.\n");
 
-    /* Verify blockchain */
+    // integrity check
     if (verify_blockchain()) {
         printf("Blockchain verified successfully.\n");
     } else {

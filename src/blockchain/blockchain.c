@@ -10,20 +10,16 @@
 
 static char blockchain_file[128] = "data/blockchain.dat";
 
-/* GLOBAL FILE LOCK */
+// mutex for thread safety
 static pthread_mutex_t blockchain_lock = PTHREAD_MUTEX_INITIALIZER;
 
-/* ---------------------------------
-   Set Blockchain File
----------------------------------- */
+// set the blockchain file path
 void set_blockchain_file(const char *filename)
 {
     strncpy(blockchain_file, filename, sizeof(blockchain_file));
 }
 
-/* ---------------------------------
-   Create Genesis Block
----------------------------------- */
+// create the first block (genesis)
 void create_genesis_block(Block *block, int validator_port)
 {
     memset(block, 0, sizeof(Block));
@@ -69,9 +65,7 @@ void create_genesis_block(Block *block, int validator_port)
            validator_port);
 }
 
-/* ---------------------------------
-   Add Block (THREAD SAFE)
----------------------------------- */
+// append a block securely
 void add_block(Block *new_block)
 {
     pthread_mutex_lock(&blockchain_lock);
@@ -91,9 +85,7 @@ void add_block(Block *new_block)
     pthread_mutex_unlock(&blockchain_lock);
 }
 
-/* ---------------------------------
-   Get Last Block
----------------------------------- */
+// retrieve the last block locally
 int get_last_block(Block *last_block)
 {
     pthread_mutex_lock(&blockchain_lock);
@@ -120,9 +112,7 @@ int get_last_block(Block *last_block)
     return found;
 }
 
-/* ---------------------------------
-   Get Last Block Hash
----------------------------------- */
+// get latest block hash
 int get_last_block_hash(char *output_hash)
 {
     Block last_block;
@@ -134,9 +124,7 @@ int get_last_block_hash(char *output_hash)
     return 1;
 }
 
-/* ---------------------------------
-   Verify Blockchain (THREAD SAFE)
----------------------------------- */
+// validate the entire chain
 int verify_blockchain()
 {
     pthread_mutex_lock(&blockchain_lock);
@@ -235,9 +223,7 @@ int verify_blockchain()
     return 1;
 }
 
-/* ---------------------------------
-   Height
----------------------------------- */
+// get chain length
 int get_blockchain_height()
 {
     pthread_mutex_lock(&blockchain_lock);
@@ -261,9 +247,7 @@ int get_blockchain_height()
     return count;
 }
 
-/* ---------------------------------
-   Get Block By Index
----------------------------------- */
+// find block by index
 int get_block_by_index(int index, Block *block)
 {
     pthread_mutex_lock(&blockchain_lock);
@@ -294,9 +278,7 @@ int get_block_by_index(int index, Block *block)
     return 0;
 }
 
-/* ---------------------------------
-   Check Block Exists
----------------------------------- */
+// check if block exists
 int block_exists_by_index(int index)
 {
     pthread_mutex_lock(&blockchain_lock);
@@ -326,9 +308,7 @@ int block_exists_by_index(int index)
     return 0;
 }
 
-/* ---------------------------------
-   Duplicate Transaction Check
----------------------------------- */
+// checking for duplicate transactions
 int transaction_hash_exists(const char *data_hash)
 {
     pthread_mutex_lock(&blockchain_lock);

@@ -5,9 +5,7 @@
 #include "block.h"
 #include "../crypto/hash.h"
 
-/* ---------------------------------
-   Initialize Block
----------------------------------- */
+// initialize a new block
 void init_block(Block *block, int index, const char *prev_hash)
 {
     block->index = index;
@@ -19,9 +17,7 @@ void init_block(Block *block, int index, const char *prev_hash)
     memset(block->validator_signature, 0, HASH_SIZE);
 }
 
-/* ---------------------------------
-   Add Transaction To Block
----------------------------------- */
+// add a transaction to the block
 int add_transaction(Block *block, Transaction tx)
 {
     if (block->transaction_count >= MAX_TRANSACTIONS)
@@ -31,9 +27,7 @@ int add_transaction(Block *block, Transaction tx)
     return 1;
 }
 
-/* ---------------------------------
-   Calculate Block Hash (Canonical)
----------------------------------- */
+// generate hash for the block
 void calculate_block_hash(Block *block)
 {
     char buffer[2048];
@@ -41,7 +35,7 @@ void calculate_block_hash(Block *block)
 
     char temp[256];
 
-    /* Core block data */
+    // block metadata
     snprintf(temp, sizeof(temp),
              "%d%ld%s%d",
              block->index,
@@ -51,7 +45,7 @@ void calculate_block_hash(Block *block)
 
     strcat(buffer, temp);
 
-    /* Transactions */
+    // transaction data
     for (int i = 0; i < block->transaction_count; i++)
     {
         snprintf(temp, sizeof(temp),

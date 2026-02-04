@@ -7,7 +7,7 @@
 #define BLOCKCHAIN_FILE "data/blockchain.dat"
 #define OFFCHAIN_DIR "offchain/records/"
 
-/* Hash file using metadata-based hashing (same as blockchain) */
+// hash file matching blockchain method
 int hash_file(const char *filename, char *output_hash) {
     FILE *fp = fopen(filename, "rb");
     if (!fp) {
@@ -60,9 +60,9 @@ int main() {
                 printf("Computed Hash : %s\n", computed_hash);
 
                 if (strcmp(block.transactions[i].data_hash, computed_hash) == 0) {
-                    printf("STATUS: ✅ Record is NOT altered.\n");
+                    printf("STATUS: Record is NOT altered.\n");
                 } else {
-                    printf("STATUS: ❌ Record HAS BEEN altered!\n");
+                    printf("STATUS: Record HAS BEEN altered!\n");
                 }
 
                 fclose(fp);
