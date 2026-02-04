@@ -1,0 +1,54 @@
+PATIENT ID: HOSP-MUM-2025-065002
+PATIENT NAME: Rohan Tiwari
+AGE: 22
+GENDER: Male
+BLOOD GROUP: O+
+
+HOSPITAL ID: HOSP-MUM-SURG-11
+DOCTOR ID: DR-MUM-GS-415
+DOCTOR NAME: Dr. Kavita Deshpande
+DEPARTMENT: General Surgery
+
+DATE OF SURGERY: 04-08-2025
+TIME: 06:40 PM
+
+----------------------------------
+PRE-OPERATIVE DIAGNOSIS:
+----------------------------------
+Acute Appendicitis
+
+----------------------------------
+SURGICAL PROCEDURE:
+----------------------------------
+Laparoscopic Appendectomy
+
+----------------------------------
+INTRA-OPERATIVE FINDINGS:
+----------------------------------
+Inflamed appendix
+No perforation
+Minimal peritoneal fluid
+
+----------------------------------
+POST-OPERATIVE STATUS:
+----------------------------------
+Stable
+Pain score: 4/10
+
+----------------------------------
+POST-OP MEDICATION:
+----------------------------------
+1. IV Ceftriaxone – 1g daily
+2. Paracetamol 650 mg – SOS
+
+----------------------------------
+DISCHARGE PLAN:
+----------------------------------
+Discharge after 48 hours
+Suture removal after 7 days
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-MUM-GS-415
+Timestamp: 04-08-2025 07:15 PM

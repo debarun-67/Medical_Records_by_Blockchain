@@ -1,25 +1,33 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include "serializer.h"
 
+/* ---------------------------------
+   Serialize Block
+---------------------------------- */
 void serialize_block(Block *block, char *buffer)
 {
     buffer[0] = '\0';
 
-    char line[512];
+    char line[4096];
 
-    /* Header */
+    /*
+      Header Format:
+      index|timestamp|previous_hash|block_hash|validator_port|signature|tx_count~
+    */
     snprintf(line, sizeof(line),
-             "%d|%ld|%s|%s|%s|%d~",
+             "%d|%ld|%s|%s|%d|%s|%d~",
              block->index,
              block->timestamp,
              block->previous_hash,
              block->block_hash,
+             block->validator_port,          // ✅ included
              block->validator_signature,
              block->transaction_count);
 
-    strcat(buffer, line);
+    strncat(buffer, line, SERIALIZED_BLOCK_SIZE - strlen(buffer) - 1);
 
     /* Transactions */
     for (int i = 0; i < block->transaction_count; i++)
@@ -32,12 +40,15 @@ void serialize_block(Block *block, char *buffer)
                  block->transactions[i].data_pointer,
                  block->transactions[i].timestamp);
 
-        strcat(buffer, line);
+        strncat(buffer, line, SERIALIZED_BLOCK_SIZE - strlen(buffer) - 1);
     }
 
-    strcat(buffer, "END_BLOCK~");
+    strncat(buffer, "END_BLOCK~", SERIALIZED_BLOCK_SIZE - strlen(buffer) - 1);
 }
 
+/* ---------------------------------
+   Deserialize Block
+---------------------------------- */
 int deserialize_block(const char *buffer, Block *block)
 {
     memset(block, 0, sizeof(Block));
@@ -48,22 +59,33 @@ int deserialize_block(const char *buffer, Block *block)
 
     char *line = strtok(copy, "~");
 
-    /* Parse header */
+    /* ---------- Parse Header ---------- */
     if (!line)
         return 0;
 
-    if (sscanf(line, "%d|%ld|%64[^|]|%64[^|]|%64[^|]|%d",
+    /*
+      Expected Header:
+      index|timestamp|previous_hash|block_hash|validator_port|signature|tx_count
+    */
+    if (sscanf(line,
+               "%d|%ld|%64[^|]|%64[^|]|%d|%512[^|]|%d",
                &block->index,
                &block->timestamp,
                block->previous_hash,
                block->block_hash,
+               &block->validator_port,        // ✅ parsed
                block->validator_signature,
-               &block->transaction_count) != 6)
+               &block->transaction_count) != 7)
         return 0;
 
+    if (block->transaction_count < 0 ||
+        block->transaction_count > MAX_TRANSACTIONS)
+        return 0;
+
+    /* ---------- Parse Transactions ---------- */
     int tx_index = 0;
 
-    while ((line = strtok(NULL, "\n")) != NULL)
+    while ((line = strtok(NULL, "~")) != NULL)
     {
         if (strcmp(line, "END_BLOCK") == 0)
             break;
@@ -85,6 +107,10 @@ int deserialize_block(const char *buffer, Block *block)
             tx_index++;
         }
     }
+
+    /* Final sanity check */
+    if (tx_index != block->transaction_count)
+        return 0;
 
     return 1;
 }

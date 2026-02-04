@@ -43,3 +43,42 @@ openssl rsa -in keys/8001_private.pem -pubout -out keys/8001_public.pem
 gcc src/generate_keys.c -o generate_keys -lcrypto
 
 ./generate_keys 8001 8002 8003
+
+
+Added Commands
+
+HEIGHT
+
+LAST
+
+PRINT <index>
+
+VERIFY
+
+PEERS
+
+SYNC
+
+HASH <file>
+
+CHECKDUP <file>
+
+CHECKSIG <index>
+
+STATS
+
+HELP
+
+
+gcc test/benchmark_node.c \
+src/network/node.c \
+src/network/proposal.c \
+src/network/protocol.c \
+src/network/sync.c \
+src/network/serializer.c \
+src/blockchain/block.c \
+src/blockchain/blockchain.c \
+src/crypto/hash.c \
+src/crypto/signature.c \
+-lssl -lcrypto -lpthread \
+-o benchmark_node

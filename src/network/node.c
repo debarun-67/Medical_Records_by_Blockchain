@@ -37,10 +37,11 @@ void remove_peer(int socket)
     int index = find_peer_by_socket(socket);
     if (index != -1)
     {
-        peers[index].active = 0;
+        printf("[NETWORK] Peer %d disconnected.\n", peers[index].port);
+
         close(peers[index].socket);
+        peers[index].active = 0;
         peer_count--;
-        printf("Peer removed.\n");
     }
 
     pthread_mutex_unlock(&peer_lock);
@@ -83,11 +84,25 @@ void *client_thread(void *arg)
     char message_buffer[BUFFER_SIZE];
     int message_len = 0;
 
+    memset(message_buffer, 0, BUFFER_SIZE);
+
     while (1)
     {
         int bytes = recv(client_socket, buffer, BUFFER_SIZE - 1, 0);
+
+        /* DISCONNECT OR ERROR */
         if (bytes <= 0)
         {
+            if (bytes == 0)
+            {
+                printf("[NETWORK] Peer connection closed.\n");
+            }
+            else
+            {
+                printf("[NETWORK] Receive error on peer socket.\n");
+            }
+
+            remove_peer(client_socket);
             break;
         }
 
@@ -95,21 +110,32 @@ void *client_thread(void *arg)
 
         for (int i = 0; i < bytes; i++)
         {
-            if (buffer[i] == '\n')
+            if (message_len < BUFFER_SIZE - 1)
             {
-                message_buffer[message_len] = '\0';
+                message_buffer[message_len++] = buffer[i];
+            }
+
+            message_buffer[message_len] = '\0';
+
+            /* FULL BLOCK RECEIVED */
+            if (strstr(message_buffer, "~END_BLOCK~") != NULL)
+            {
                 handle_message(client_socket, message_buffer);
                 message_len = 0;
+                memset(message_buffer, 0, BUFFER_SIZE);
+                continue;
             }
-            else
+
+            /* SIMPLE LINE MESSAGE */
+            if (buffer[i] == '\n')
             {
-                if (message_len < BUFFER_SIZE - 1)
-                    message_buffer[message_len++] = buffer[i];
+                handle_message(client_socket, message_buffer);
+                message_len = 0;
+                memset(message_buffer, 0, BUFFER_SIZE);
             }
         }
     }
 
-    remove_peer(client_socket);
     return NULL;
 }
 
@@ -124,7 +150,7 @@ void start_server(int port)
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd < 0)
     {
-        perror("Socket failed");
+        printf("[NETWORK] Failed to create server socket.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -137,17 +163,17 @@ void start_server(int port)
 
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0)
     {
-        perror("Bind failed");
+        printf("[NETWORK] Failed to bind to port %d.\n", port);
         exit(EXIT_FAILURE);
     }
 
     if (listen(server_fd, 10) < 0)
     {
-        perror("Listen failed");
+        printf("[NETWORK] Failed to start listening on port %d.\n", port);
         exit(EXIT_FAILURE);
     }
 
-    printf("Server listening on port %d\n", port);
+    printf("[NETWORK] Node listening on port %d\n", port);
 
     while (1)
     {
@@ -175,6 +201,10 @@ void start_server(int port)
                 peers[i].last_seen = time(NULL);
                 peers[i].active = 1;
                 peer_count++;
+
+                printf("[NETWORK] Inbound connection accepted (remote port %d)\n",
+                       peers[i].port);
+
                 break;
             }
         }
@@ -229,7 +259,7 @@ void connect_to_peer(const char *ip, int port)
 
     pthread_mutex_unlock(&peer_lock);
 
-    printf("Connected to peer %d\n", port);
+    printf("[NETWORK] Outbound connection established to peer %d\n", port);
 
     pthread_t thread_id;
     int *socket_ptr = malloc(sizeof(int));
@@ -257,7 +287,7 @@ void broadcast_message(const char *message)
 }
 
 /* =========================
-   PEER COUNT (THREAD SAFE)
+   PEER COUNT
 ========================= */
 int get_peer_count()
 {

@@ -25,12 +25,12 @@ int hex_to_bin(const char *hex, unsigned char *bin)
         return 0;
 
     for (size_t i = 0; i < len / 2; i++)
-        sscanf(hex + 2*i, "%2hhx", &bin[i]);
+        sscanf(hex + 2 * i, "%2hhx", &bin[i]);
 
     return len / 2;
 }
 
-/* SIGN using EVP (modern OpenSSL) */
+/* SIGN using EVP */
 int sign_data(const char *data,
               const char *private_key_path,
               char signature_hex[513])
@@ -38,7 +38,7 @@ int sign_data(const char *data,
     FILE *fp = fopen(private_key_path, "r");
     if (!fp)
     {
-        printf("ERROR: Cannot open private key file\n");
+        printf("[CRYPTO] Private key file not found: %s\n", private_key_path);
         return 0;
     }
 
@@ -47,7 +47,7 @@ int sign_data(const char *data,
 
     if (!pkey)
     {
-        printf("ERROR: Failed to load private key\n");
+        printf("[CRYPTO] Failed to load private key.\n");
         return 0;
     }
 
@@ -76,6 +76,12 @@ int sign_data(const char *data,
     EVP_DigestSignFinal(ctx, NULL, &sig_len);
 
     unsigned char *sig = malloc(sig_len);
+    if (!sig)
+    {
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
 
     if (EVP_DigestSignFinal(ctx, sig, &sig_len) <= 0)
     {
@@ -102,7 +108,7 @@ int verify_signature(const char *data,
     FILE *fp = fopen(public_key_path, "r");
     if (!fp)
     {
-        printf("ERROR: Cannot open public key file\n");
+        printf("[CRYPTO] Public key file not found: %s\n", public_key_path);
         return 0;
     }
 
@@ -111,7 +117,7 @@ int verify_signature(const char *data,
 
     if (!pkey)
     {
-        printf("ERROR: Failed to load public key\n");
+        printf("[CRYPTO] Failed to load public key.\n");
         return 0;
     }
 
@@ -138,6 +144,13 @@ int verify_signature(const char *data,
 
     unsigned char sig_bin[512];
     int sig_len = hex_to_bin(signature_hex, sig_bin);
+
+    if (sig_len <= 0)
+    {
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+        return 0;
+    }
 
     int result = EVP_DigestVerifyFinal(ctx, sig_bin, sig_len);
 

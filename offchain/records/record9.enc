@@ -1,0 +1,46 @@
+PATIENT ID: HOSP-HYD-2025-003876
+PATIENT NAME: Imran Qureshi
+AGE: 38
+GENDER: Male
+BLOOD GROUP: AB-
+
+HOSPITAL ID: HOSP-HYD-028
+DOCTOR ID: DR-HYD-PULM-276
+DOCTOR NAME: Dr. Farah Siddiqui
+DEPARTMENT: Pulmonology
+
+DATE OF VISIT: 09-05-2025
+TIME: 01:40 PM
+
+----------------------------------
+CHIEF COMPLAINT:
+----------------------------------
+Persistent cough for 3 weeks
+
+----------------------------------
+DIAGNOSIS:
+----------------------------------
+Acute Bronchitis
+
+----------------------------------
+VITAL SIGNS:
+----------------------------------
+Temperature: 99.4°F
+Oxygen Saturation: 97%
+
+----------------------------------
+PRESCRIPTION:
+----------------------------------
+1. Azithromycin 500 mg – Once daily for 5 days
+2. Steam inhalation advised
+
+----------------------------------
+FOLLOW-UP:
+----------------------------------
+Return if symptoms persist
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-HYD-PULM-276
+Signature Timestamp: 09-05-2025 02:05 PM

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
+
 #include "node.h"
 #include "../blockchain/blockchain.h"
 
@@ -9,7 +10,7 @@
 ========================= */
 void initiate_chain_sync()
 {
-    printf("Initiating chain sync...\n");
+    printf("[SYNC] Initiating chain synchronization...\n");
 
     /* Step 1: Ask all peers their height */
     broadcast_message("GET_HEIGHT\n");
@@ -20,7 +21,7 @@ void initiate_chain_sync()
 ========================= */
 void force_full_resync(int client_socket)
 {
-    printf("Forcing full chain resync...\n");
+    printf("[SYNC] Forcing full chain resynchronization...\n");
 
     int local_height = get_blockchain_height();
 
@@ -39,6 +40,6 @@ void force_full_resync(int client_socket)
 ========================= */
 void handle_sync_mismatch(int client_socket)
 {
-    printf("Chain mismatch detected. Re-requesting full height.\n");
+    printf("[SYNC] Chain mismatch detected. Requesting updated height.\n");
     send(client_socket, "GET_HEIGHT\n", 11, 0);
 }

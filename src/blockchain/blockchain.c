@@ -10,7 +10,7 @@
 
 static char blockchain_file[128] = "data/blockchain.dat";
 
-/* 🔥 GLOBAL FILE LOCK */
+/* GLOBAL FILE LOCK */
 static pthread_mutex_t blockchain_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* ---------------------------------
@@ -30,7 +30,7 @@ void create_genesis_block(Block *block, int validator_port)
 
     block->index = 0;
     block->timestamp = 1737280140;
-    block->validator_port = validator_port;   // 🔥 VERY IMPORTANT
+    block->validator_port = validator_port;
 
     strcpy(block->previous_hash, "0");
 
@@ -61,11 +61,11 @@ void create_genesis_block(Block *block, int validator_port)
                    private_key_path,
                    block->validator_signature))
     {
-        printf("ERROR: Genesis signing failed\n");
+        printf("[CRYPTO] Genesis signing failed.\n");
         exit(1);
     }
 
-    printf("Genesis block signed successfully for node %d\n",
+    printf("[BLOCKCHAIN] Genesis block created (node %d)\n",
            validator_port);
 }
 
@@ -80,7 +80,7 @@ void add_block(Block *new_block)
     if (!fp)
     {
         pthread_mutex_unlock(&blockchain_lock);
-        printf("ERROR: Cannot open blockchain file\n");
+        printf("[STORAGE] Failed to open blockchain file.\n");
         return;
     }
 
@@ -157,95 +157,76 @@ int verify_blockchain()
         return 0;
     }
 
-    /* 1️⃣ Verify genesis hash */
-    char prev_hash[HASH_SIZE];
-    strcpy(prev_hash, prev.block_hash);
+    char stored_hash[HASH_SIZE];
+    strcpy(stored_hash, prev.block_hash);
 
     calculate_block_hash(&prev);
 
-    if (strcmp(prev_hash, prev.block_hash) != 0)
+    if (strcmp(stored_hash, prev.block_hash) != 0)
     {
+        printf("[BLOCKCHAIN] Genesis hash validation failed.\n");
         fclose(fp);
         pthread_mutex_unlock(&blockchain_lock);
-        printf("ERROR: Genesis hash invalid\n");
         return 0;
     }
 
-    /* 2️⃣ Verify genesis signature */
     char public_key_path[64];
     snprintf(public_key_path, sizeof(public_key_path),
              "keys/%d_public.pem", prev.validator_port);
 
-    if (!verify_signature(prev_hash,
+    if (!verify_signature(stored_hash,
                           public_key_path,
                           prev.validator_signature))
     {
+        printf("[CRYPTO] Genesis signature validation failed.\n");
         fclose(fp);
         pthread_mutex_unlock(&blockchain_lock);
-        printf("ERROR: Genesis signature invalid\n");
         return 0;
     }
 
-    /* 3️⃣ Verify rest of chain */
+    strcpy(stored_hash, prev.block_hash);
+
     while (fread(&curr, sizeof(Block), 1, fp) == 1)
     {
-        if (strcmp(curr.previous_hash, prev_hash) != 0)
+        if (strcmp(curr.previous_hash, stored_hash) != 0)
         {
+            printf("[BLOCKCHAIN] Previous hash mismatch at block %d.\n",
+                   curr.index);
             fclose(fp);
             pthread_mutex_unlock(&blockchain_lock);
-            printf("ERROR: Previous hash mismatch at block %d\n",
-                   curr.index);
             return 0;
         }
 
-        char curr_hash[HASH_SIZE];
-        strcpy(curr_hash, curr.block_hash);
+        char original_hash[HASH_SIZE];
+        strcpy(original_hash, curr.block_hash);
 
         calculate_block_hash(&curr);
 
-        if (strcmp(curr_hash, curr.block_hash) != 0)
+        if (strcmp(original_hash, curr.block_hash) != 0)
         {
+            printf("[BLOCKCHAIN] Hash validation failed at block %d.\n",
+                   curr.index);
             fclose(fp);
             pthread_mutex_unlock(&blockchain_lock);
-            printf("ERROR: Hash invalid at block %d\n",
-                   curr.index);
             return 0;
         }
 
-        char public_key_path[64];
-snprintf(public_key_path, sizeof(public_key_path),
-         "keys/%d_public.pem", curr.validator_port);
+        snprintf(public_key_path, sizeof(public_key_path),
+                 "keys/%d_public.pem", curr.validator_port);
 
-if (!verify_signature(curr_hash,
-                      public_key_path,
-                      curr.validator_signature))
-{
-    fclose(fp);
-    pthread_mutex_unlock(&blockchain_lock);
-    printf("ERROR: Signature invalid at block %d\n",
-           curr.index);
-    return 0;
-}
-
-
-if (!verify_signature(curr_hash,
-                      public_key_path,
-                      curr.validator_signature))
-{
-    fclose(fp);
-    pthread_mutex_unlock(&blockchain_lock);
-    return 0;
-}
-
+        if (!verify_signature(original_hash,
+                              public_key_path,
+                              curr.validator_signature))
         {
+            printf("[CRYPTO] Signature validation failed at block %d.\n",
+                   curr.index);
             fclose(fp);
             pthread_mutex_unlock(&blockchain_lock);
-            printf("ERROR: Signature invalid at block %d\n",
-                   curr.index);
             return 0;
         }
 
-        strcpy(prev_hash, curr_hash);
+        strcpy(stored_hash, original_hash);
+        prev = curr;
     }
 
     fclose(fp);
@@ -344,7 +325,10 @@ int block_exists_by_index(int index)
 
     return 0;
 }
-//duplicate check
+
+/* ---------------------------------
+   Duplicate Transaction Check
+---------------------------------- */
 int transaction_hash_exists(const char *data_hash)
 {
     pthread_mutex_lock(&blockchain_lock);

@@ -40,7 +40,8 @@ void propose_block(Block *block)
     snprintf(message, sizeof(message),
              "PROPOSE_BLOCK:%s\n", buffer);
 
-    printf("Broadcasting block proposal...\n");
+    printf("[CONSENSUS] Broadcasting proposal for block %d\n",
+           block->index);
 
     broadcast_message(message);
 }
@@ -69,7 +70,8 @@ void register_vote(const char *vote)
 
     if (approve_votes >= majority)
     {
-        printf("Majority reached. Committing block.\n");
+        printf("[CONSENSUS] Majority reached for block %d\n",
+               current_proposal.index);
 
         add_block(&current_proposal);
 
@@ -82,6 +84,9 @@ void register_vote(const char *vote)
                  "COMMIT_BLOCK:%s\n", buffer);
 
         broadcast_message(message);
+
+        printf("[CONSENSUS] Block %d committed\n",
+               current_proposal.index);
 
         proposal_active = 0;
     }
@@ -103,12 +108,12 @@ void handle_commit(const char *serialized)
 
     if (block_exists_by_index(incoming.index))
     {
-        printf("Block %d already exists. Ignoring duplicate.\n",
+        printf("[CONSENSUS] Duplicate commit ignored for block %d\n",
                incoming.index);
         return;
     }
 
-    printf("Committing received block %d\n",
+    printf("[CONSENSUS] Committing received block %d\n",
            incoming.index);
 
     add_block(&incoming);

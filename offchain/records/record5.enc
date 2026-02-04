@@ -1,0 +1,48 @@
+PATIENT ID: HOSP-DEL-2025-002341
+PATIENT NAME: Arjun Mehta
+AGE: 52
+GENDER: Male
+BLOOD GROUP: O+
+
+HOSPITAL ID: HOSP-DEL-021
+DOCTOR ID: DR-DEL-CARD-229
+DOCTOR NAME: Dr. Ritu Khanna
+DEPARTMENT: Cardiology
+
+DATE OF VISIT: 05-04-2025
+TIME: 09:15 AM
+
+----------------------------------
+CHIEF COMPLAINT:
+----------------------------------
+Chest discomfort during exertion
+
+----------------------------------
+DIAGNOSIS:
+----------------------------------
+Stable Angina
+
+----------------------------------
+VITAL SIGNS:
+----------------------------------
+Blood Pressure: 148/92 mmHg
+Heart Rate: 88 bpm
+ECG: ST segment depression noted
+
+----------------------------------
+PRESCRIPTION:
+----------------------------------
+1. Aspirin 75 mg – Once daily
+2. Atorvastatin 20 mg – Once daily
+3. Nitroglycerin – As needed
+
+----------------------------------
+FOLLOW-UP:
+----------------------------------
+Stress test scheduled in 2 weeks
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-DEL-CARD-229
+Signature Timestamp: 05-04-2025 09:40 AM

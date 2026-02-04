@@ -1,0 +1,63 @@
+PATIENT ID: HOSP-DEL-2025-065001
+PATIENT NAME: Mahesh Agarwal
+AGE: 63
+GENDER: Male
+BLOOD GROUP: B+
+
+HOSPITAL ID: HOSP-DEL-ICU-02
+DOCTOR ID: DR-DEL-CRIT-701
+DOCTOR NAME: Dr. Nidhi Sharma
+DEPARTMENT: Critical Care Medicine
+
+DATE OF ADMISSION: 02-08-2025
+TIME: 01:15 AM
+
+----------------------------------
+PRIMARY DIAGNOSIS:
+----------------------------------
+Sepsis secondary to urinary tract infection
+
+----------------------------------
+PRESENTING SYMPTOMS:
+----------------------------------
+High-grade fever (103°F)
+Altered sensorium
+Low blood pressure
+Decreased urine output
+
+----------------------------------
+VITAL SIGNS ON ADMISSION:
+----------------------------------
+Blood Pressure: 88/54 mmHg
+Heart Rate: 118 bpm
+Respiratory Rate: 26/min
+SpO2: 92% (Room air)
+Lactate: 4.2 mmol/L
+
+----------------------------------
+INVESTIGATIONS:
+----------------------------------
+Blood Culture: Pending
+Urine Culture: E. coli (suspected)
+WBC Count: 18,500 /mm³
+Serum Creatinine: 2.1 mg/dL
+
+----------------------------------
+TREATMENT INITIATED:
+----------------------------------
+1. IV Piperacillin-Tazobactam
+2. IV Fluids (Normal Saline)
+3. Noradrenaline infusion
+4. Foley catheter insertion
+5. Continuous monitoring in ICU
+
+----------------------------------
+PROGNOSIS:
+----------------------------------
+Guarded
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-DEL-CRIT-701
+Timestamp: 02-08-2025 01:45 AM

@@ -3,7 +3,7 @@
 
 #include "../blockchain/block.h"
 
-#define SERIALIZED_BLOCK_SIZE 4096
+#define SERIALIZED_BLOCK_SIZE 8192
 
 void serialize_block(Block *block, char *buffer);
 int deserialize_block(const char *buffer, Block *block);

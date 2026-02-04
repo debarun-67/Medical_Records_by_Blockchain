@@ -1,0 +1,56 @@
+PATIENT ID: HOSP-HYD-2025-065005
+PATIENT NAME: Nikhil Reddy
+AGE: 27
+GENDER: Male
+BLOOD GROUP: O-
+
+HOSPITAL ID: HOSP-HYD-EMR-03
+DOCTOR ID: DR-HYD-EMR-333
+DOCTOR NAME: Dr. Ayesha Khan
+DEPARTMENT: Emergency Medicine
+
+DATE OF ADMISSION: 10-08-2025
+TIME: 11:20 PM
+
+----------------------------------
+MECHANISM OF INJURY:
+----------------------------------
+Road Traffic Accident – Motorcycle skid
+
+----------------------------------
+PRIMARY SURVEY:
+----------------------------------
+Airway: Patent
+Breathing: Normal
+Circulation: Stable
+
+----------------------------------
+INJURIES NOTED:
+----------------------------------
+Fracture – Left clavicle
+Multiple abrasions
+Mild head injury (GCS 14/15)
+
+----------------------------------
+INVESTIGATIONS:
+----------------------------------
+CT Brain: No intracranial bleed
+X-Ray: Left clavicle fracture
+
+----------------------------------
+TREATMENT:
+----------------------------------
+Clavicle immobilization
+Tetanus toxoid injection
+Observation for 24 hours
+
+----------------------------------
+DISPOSITION:
+----------------------------------
+Admitted for observation
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-HYD-EMR-333
+Timestamp: 10-08-2025 11:45 PM

@@ -1,0 +1,45 @@
+PATIENT ID: HOSP-CHN-2025-004512
+PATIENT NAME: S. Raghavan
+AGE: 71
+GENDER: Male
+BLOOD GROUP: A+
+
+HOSPITAL ID: HOSP-CHN-017
+DOCTOR ID: DR-CHN-NEURO-301
+DOCTOR NAME: Dr. Vivek Narayanan
+DEPARTMENT: Neurology
+
+DATE OF VISIT: 18-06-2025
+TIME: 11:05 AM
+
+----------------------------------
+CHIEF COMPLAINT:
+----------------------------------
+Memory loss and confusion
+
+----------------------------------
+DIAGNOSIS:
+----------------------------------
+Early Stage Alzheimer’s Disease
+
+----------------------------------
+NEUROLOGICAL ASSESSMENT:
+----------------------------------
+MMSE Score: 23/30
+MRI Brain: Mild cortical atrophy
+
+----------------------------------
+PRESCRIPTION:
+----------------------------------
+1. Donepezil 5 mg – Once daily
+
+----------------------------------
+FOLLOW-UP:
+----------------------------------
+Cognitive assessment every 6 months
+
+----------------------------------
+DIGITAL SIGNATURE:
+----------------------------------
+Signed by: DR-CHN-NEURO-301
+Signature Timestamp: 18-06-2025 11:30 AM
