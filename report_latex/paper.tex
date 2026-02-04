@@ -1,0 +1,1238 @@
+% This file keeps your original wording and only adds LaTeX formatting.
+
+
+\begin{titlepage}
+\begin{center}
+
+{\Large \textbf{Design and Implementation of a Permissioned Blockchain for Secure Medical Record Storage \\[4pt]
+}}
+
+\vspace{0.8cm}
+
+{\large A Project Report submitted in partial fulfilment of the requirement for the \\[4pt]
+Degree of Bachelor of Technology in Computer Science \& Engineering}
+
+\vspace{0.8cm}
+
+{\large Maulana Abul Kalam Azad University of Technology, West Bengal}
+
+\vspace{1.0cm}
+
+\IfFileExists{assets/logo.png}{\includegraphics[width=3.5cm]{assets/logo.png}}{}
+
+\vspace{0.4cm}
+
+{\large February - 2026}
+
+\vspace{1.2cm}
+
+\textbf{By}
+
+\vspace{0.3cm}
+
+Debarun Biswas
+
+Registration No: 221000110186 of 2022-23
+
+Examination Roll No: 10000122040
+
+\vspace{1.2cm}
+
+\textbf{Under the Guidance of}
+
+\vspace{0.3cm}
+
+Prof. Santanu Phadikar
+
+Professor
+
+Department of Computer Science \& Engineering
+
+Maulana Abul Kalam Azad University of Technology
+
+Kolkata-741249, W.B., India
+
+\end{center}
+\end{titlepage}
+
+\newpage
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+\begin{center}
+\textbf{Faculty of Maulana Abul Kalam Azad University of Technology}\\[0.5cm]
+\IfFileExists{assets/logo.png}{\includegraphics[width=3cm]{assets/logo.png}}{}\\[0.5cm]
+\textbf{CERTIFICATE}
+\end{center}
+
+\vspace{0.6cm}
+
+This is to certify that the Dissertation Project Report entitled,
+``Design and Implementation of a Permissioned Blockchain for Secure Medical Record Storage''
+submitted by Debarun Biswas, University Roll No: 10000122040, Registration No: 221000110186 of 2022-23 to MAKAUT, WB, India, has been carried out under our guidance and supervision and is accepted in partial fulfilment of the requirement for the Degree of Bachelor of Technology in Computer Science and Engineering.
+
+\vspace{3cm}
+\hfill
+\begin{minipage}{0.55\textwidth}
+
+\rule{7cm}{0.4pt}
+
+Prof. Santanu Phadikar
+
+Professor
+
+Department of Computer Science \& Engineering
+
+Maulana Abul Kalam Azad University of Technology
+
+Kolkata-741249, W.B., India
+
+\vspace{3cm}
+
+\rule{7cm}{0.4pt}
+
+Mr. Mihir Sing
+
+Head of the Department
+
+Dept. of Computer Science \& Engineering
+
+Maulana Abul Kalam Azad University of Technology, W.B.
+
+\end{minipage}
+
+
+\newpage
+\setcounter{page}{3}
+
+\begin{center}
+\textbf{Faculty of Maulana Abul Kalam Azad University of Technology}\\[0.5cm]
+\IfFileExists{assets/logo.png}{\includegraphics[width=3cm]{assets/logo.png}}{}\\[0.5cm]
+\textbf{CERTIFICATE OF APPROVAL}
+\end{center}
+
+\vspace{0.6cm}
+
+The foregoing project report is hereby approved as a creditable study of an engineering subject and presented in a manner satisfactory to warrant acceptance as prerequisite to the degree for which it has been submitted. It is understood that by this approval the undersigned do not necessarily endorse or approve any statement made, opinion expressed or conclusion drawn therein but approve the thesis only for which it is submitted.
+
+\vspace{1.5cm}
+
+Committee on final examination for the evaluation of the project report.
+
+\vspace{3cm}
+
+\begin{flushright}
+
+\rule{7cm}{0.4pt}
+
+Signature of the Examiner
+
+\vspace{3cm}
+
+\rule{7cm}{0.4pt}
+
+Signature of the Supervisor
+
+\end{flushright}
+
+
+\newpage
+\setcounter{page}{4}
+
+\begin{center}
+\textbf{DECLARATION OF ORIGINALITY AND COMPLIANCE OF ACADEMIC PROJECT REPORT}
+\end{center}
+\begin{center}
+\includegraphics[width=3cm]{assets/logo.png}
+\end{center}
+\vspace{0.8cm}
+
+I hereby declare that this project report entitled
+``Design and Implementation of a Permissioned Blockchain for Secure Medical Record Storage''
+contains literature survey and original research work by the undersigned candidate, as part of his Degree of Bachelor of Technology in Software Engineering.
+
+All information has been obtained and presented in accordance with academic rules and ethical conduct.
+
+I also declare that, as required by these rules and conduct, I have fully cited and referenced all materials and results that are not original to this work.
+
+\vspace{1.5cm}
+
+Name: Debarun Biswas
+
+Examination Roll No.: 10000122040
+
+Report Title: Design and Implementation of a Permissioned Blockchain for Secure Medical Record Storage
+
+\vspace{2.5cm}
+
+Date: \hspace{10cm} Signature of the candidate
+
+\newpage
+\setcounter{page}{5}
+
+\begin{center}
+\textbf{ACKNOWLEDGEMENTS}
+\end{center}
+
+\vspace{0.6cm}
+
+First and foremost, I would like to express my sincere gratitude to my respected guides, Prof. Santanu Phadikar, Department of Computer Science \& Engineering, for providing me the opportunity to undertake this project titled “Design and Implementation of a Permissioned Blockchain for Secure Medical Record Storage.” Their constant guidance, valuable insights, and unwavering support were instrumental in the successful completion of this work. I am especially thankful for the confidence they placed in me and for their constructive feedback throughout the development of this project.
+
+I also extend my sincere thanks to Mr. Mihir Sing for his leadership as Head of the Department during my tenure, and to all the respected faculty members of the Department of Computer Science \& Engineering for their continuous encouragement and academic support.
+
+Finally, I am grateful to everyone who directly or indirectly contributed to the completion of this project.
+
+\vspace{1.5cm}
+
+Date: February 5, 2026
+
+Place: Haringhata, West Bengal
+
+\vspace{1cm}
+\begin{flushright}
+\rule{6cm}{0.4pt}
+
+Debarun Biswas
+
+Examination Roll No.: 10000122040
+
+Reg. No.: 221000110186
+
+Maulana Abul Kalam Azad University of Technology
+\end{flushright}
+\newpage
+
+\section*{LIST OF FIGURES}
+
+\noindent\hyperref[fig:3.1]{Figure 3.1 Block Structure and Hash Linking Mechanism}\dotfill\pageref{fig:3.1}\\
+\hyperref[fig:3.2]{Figure 3.2 Node Interaction and Block Validation Sequence}\dotfill\pageref{fig:3.2}\\
+\hyperref[fig:4.1]{Figure 4.1 Overall System Architecture}\dotfill\pageref{fig:4.1}\\
+\hyperref[fig:4.2]{Figure 4.2 Protocol Interaction Diagram}\dotfill\pageref{fig:4.2}\\
+\hyperref[fig:4.3]{Figure 4.3 Transaction Processing Flow Diagram}\dotfill\pageref{fig:4.3}
+
+\newpage
+
+\section*{Contents}
+
+\noindent\hyperref[sec:abstract]{Abstract}\dotfill\pageref{sec:abstract}\\
+\hyperref[ch:1]{Chapter 1: Introduction \& Motivation}\dotfill\pageref{ch:1}\\
+\hyperref[ch:2]{Chapter 2: Related Technologies and Architectural Analysis}\dotfill\pageref{ch:2}\\
+\hyperref[ch:3]{Chapter 3: Theoretical Framework and Formal Model}\dotfill\pageref{ch:3}\\
+\hyperref[ch:4]{Chapter 4: System Design and Architecture}\dotfill\pageref{ch:4}\\
+\hyperref[ch:5]{Chapter 5: Implementation Details}\dotfill\pageref{ch:5}\\
+\hyperref[ch:6]{Chapter 6: Performance Evaluation}\dotfill\pageref{ch:6}\\
+\hyperref[ch:7]{Chapter 7: Security and Threat Analysis}\dotfill\pageref{ch:7}\\
+\hyperref[ch:8]{Chapter 8: Legal, Compliance, and Scalability}\dotfill\pageref{ch:8}\\
+\hyperref[ch:9]{Chapter 9: Conclusion and Future Work}\dotfill\pageref{ch:9}\\
+\hyperref[sec:bibliography]{Bibliography}\dotfill\pageref{sec:bibliography}
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section*{Abstract}
+\phantomsection\label{sec:abstract}
+The increased digitalization of the healthcare industry has resulted in the adoption of Electronic Health Record (EHR) systems. However, most existing systems use centralized architectures that are susceptible to data tampering, insider attacks, and single points of failure.
+
+This project report proposes the design and implementation of a permissioned blockchain system for secure storage of medical data using a Proof-of-Authority (PoA) consensus protocol suitable for a healthcare consortium, where validator identities are authenticated and managed.
+
+The system is developed in C (C11) for deterministic execution, efficient memory management, and low-level network control. To preserve privacy, the design uses hybrid storage: encrypted medical files are stored off-chain, while cryptographic hashes and metadata are stored on-chain.
+
+Transactions are digitally signed using RSA-2048, and integrity is maintained through SHA-256 hash chaining.
+
+Performance measurements indicate block validation time of approximately 2 ms and throughput above 800 transactions per second in a controlled single-validator environment. Security analysis indicates resistance to tampering and Sybil attacks under the stated trust assumptions, and detection of unauthorized off-chain file modification via hash mismatch.
+
+Keywords: Permissioned Blockchain, Proof of Authority, Medical Records, SHA-256, RSA, Distributed Ledger.
+
+\newpage
+
+\section*{Chapter 1}
+\phantomsection\label{ch:1}
+
+\section*{Introduction \& Motivation}
+
+\subsection*{1.1 Introduction}
+Healthcare systems depend on digital information. Hospitals record diagnosis history, laboratory results, prescriptions, imaging reports, and insurance claims in Electronic Health Record systems. Governments across the world have promoted digital health initiatives to improve coordination, reduce manual errors, and support long term patient tracking. In many countries, more than 80 percent of hospitals now rely on some form of electronic record infrastructure. This transition improves speed and accessibility. It also increases exposure to cyber risk.
+Most healthcare institutions store records in centralized database servers. A central authority manages user roles, storage, and modification rights. Administrators hold privileged access. This model creates structural vulnerability.
+
+If an attacker compromises administrator credentials, the attacker gains authority to alter or delete records. If ransomware encrypts the primary database server, doctors lose access to patient history. Hospitals have reported multi-day shutdowns due to database encryption incidents. The financial impact includes operational disruption, delayed treatment, regulatory penalties, and reputational damage.
+
+Centralization also creates a trust bottleneck. Hospitals, insurance providers, diagnostic labs, and pharmacies operate independent systems. When they exchange medical data, they rely on trust agreements and manual verification. Each party maintains separate logs. No shared cryptographic mechanism verifies whether historical data remains intact. If a dispute arises about whether a record was altered, institutions must rely on internal audit trails. Internal logs do not provide external proof of integrity because the same administrative authority controls both data and logs.
+Medical records require strict guarantees. A single altered allergy entry can lead to incorrect medication. A modified lab report can change treatment decisions. An erased insurance approval can delay care. A secure system must provide three guarantees. First, integrity. No one should change historical data without detection. Second, provenance. You must trace who created or signed a record. Third, privacy. Only authorized parties should access sensitive patient information.
+Current database systems address confidentiality through access control and encryption. They address availability through backups. They do not provide strong tamper evidence. When an insider modifies a record, the system logs the event. An insider with sufficient privilege can also modify or delete the log. The architecture relies on trust in administrators. In high risk environments, trust alone is insufficient.
+Blockchain technology offers a different model. A blockchain stores records in blocks. Each block contains data and a cryptographic hash of the previous block. The hash function produces a fixed length output. If any bit of the previous block changes, the hash changes. This property links blocks into a chain. When nodes verify the chain, they recompute hashes. If a mismatch appears, the system detects alteration. This mechanism provides tamper evidence through mathematics rather than policy.
+The original blockchain implementation supported a public cryptocurrency network. Participants could join without identity verification. The system relied on Proof of Work consensus. Nodes solved computational puzzles to propose blocks. This model ensured openness and resistance to censorship. It also introduced high energy consumption and limited throughput. Public networks process a small number of transactions per second compared to enterprise databases.
+Healthcare systems operate under different assumptions. Hospitals and regulatory bodies know participating institutions. They require identity verification and compliance oversight. A permissioned blockchain suits this environment. In a permissioned model, only approved nodes validate transactions and create blocks. The system enforces identity through cryptographic key pairs. Validators sign blocks using private keys. Other nodes verify signatures using public keys. The network restricts access to known entities.
+Proof of Authority consensus aligns with this structure. In a PoA system, designated validators propose and sign blocks. The network accepts a block only if a recognized validator signs it and if the block links correctly to the previous block. This design reduces computational overhead. It increases throughput because validators do not compete through energy intensive puzzles. It enforces accountability because each block contains a signature traceable to a known identity.
+Despite the promise of blockchain, direct adoption of public platforms raises challenges. Ethereum and similar frameworks support general purpose smart contracts. They rely on complex virtual machines and layered software stacks. Hospitals often operate legacy infrastructure. They require predictable latency and minimal runtime overhead. Large dependency stacks complicate auditing and regulatory review. In medical software environments, auditors often demand line by line code review. Smaller codebases improve transparency and reduce attack surface.
+Another challenge concerns privacy. A blockchain ledger replicates data across nodes. If you store raw medical files directly on chain, you expose sensitive information to all validators. Data protection regulations such as HIPAA and GDPR impose strict limits on personal data exposure. GDPR includes a right to erasure principle. Blockchain immutability conflicts with direct deletion of stored data. A hybrid approach addresses this tension.
+\par
+\noindent\hspace*{2em}In a hybrid architecture, the system stores encrypted medical files off chain. The blockchain stores only cryptographic hashes and metadata references. The hash represents proof of existence. If someone modifies the off chain file, the computed hash changes. Verification fails. The blockchain thus serves as an integrity anchor. If a patient requests deletion under regulatory rights, the institution deletes the encrypted file. The remaining hash on chain does not reveal patient identity without the original file.
+Distributed systems also require synchronization logic. When a new node joins the network, it must verify historical blocks. The node downloads blocks in sequence and recomputes hashes. If verification passes, the node reaches consensus with the network. This process prevents unauthorized rewriting of history. If a malicious node attempts to propose a modified chain, signature verification and hash comparison expose the inconsistency.
+Healthcare networks face increasing attack sophistication. Attackers exploit remote access software, phishing emails, and outdated servers. Insider threats also remain significant. A staff member with elevated privileges can export, alter, or delete data. Traditional database systems depend on role based access controls. They do not provide distributed consensus verification. A permissioned blockchain introduces collective validation. Multiple validators must agree on the next block. A single compromised node cannot rewrite history without detection by others.
+Performance remains critical. Hospitals process large volumes of records daily. A system that introduces significant delay would disrupt operations. A PoA blockchain reduces consensus overhead compared to public networks. When implemented in a systems level language such as C, the software gains fine grained memory control and predictable execution timing. There is no garbage collection pause. There is no hidden runtime abstraction. Deterministic execution supports consistent latency measurement.
+Determinism also supports auditability. In safety critical systems, auditors examine source code for memory safety and control flow clarity. A compact implementation reduces complexity. If the network protocol uses explicit serialization and fixed width data structures, nodes maintain consistent interpretation across platforms. Predictable struct layout simplifies interoperability between Linux and Windows environments.
+This thesis presents the design and implementation of a permissioned blockchain tailored for secure medical record storage. The system adopts Proof of Authority consensus with identity based validation. Each transaction includes patient pseudonym identifiers, practitioner identifiers, and a cryptographic hash of the encrypted medical file. Validators sign blocks using RSA digital signatures. The chain uses SHA-256 to link blocks. A custom TCP protocol manages node communication and synchronization.
+The architecture separates storage layers. The blockchain layer ensures integrity and provenance. The off chain storage layer ensures confidentiality through encryption. The network layer ensures distributed agreement. The design targets healthcare consortium deployment where institutions share trust boundaries but require verifiable accountability.
+The research focuses on three measurable goals. First, enforce tamper evidence through recursive hash verification and digital signatures. Second, maintain privacy by restricting on chain data to hashes and metadata. Third, achieve throughput and latency suitable for hospital scale workloads. The implementation includes performance benchmarking under controlled conditions to evaluate block creation time, signature latency, and synchronization cost.
+Healthcare data management demands both security and practicality. Systems must operate within regulatory constraints. They must handle large transaction volumes. They must withstand internal and external threats. A permissioned blockchain provides a structural response to centralized weaknesses. By combining cryptographic linking, identity based validation, and distributed consensus, the proposed system establishes a tamper evident ledger suited to medical record management.
+The following sections define the precise problem addressed by this work and outline the research objectives guiding system design and evaluation.
+
+\subsection*{1.2 Problem Statement}
+Healthcare institutions depend on centralized database systems to manage patient records. These systems assume trusted administrators and secure internal controls. This assumption fails under realistic threat conditions. Insider misuse, credential compromise, and ransomware attacks expose structural weaknesses in centralized architectures.
+Current Electronic Health Record systems suffer from three core limitations.
+First, centralized trust.
+A single database authority controls data storage and modification. If an attacker compromises this authority, the attacker can alter historical medical records. Internal audit logs do not provide independent cryptographic verification. The same authority manages both data and logs. This structure does not guarantee tamper evidence.
+Second, weak cross institutional integrity.
+Hospitals, diagnostic laboratories, pharmacies, and insurance providers exchange medical data across organizational boundaries. Each entity maintains separate records. There is no shared trust layer that ensures a record sent today remains unchanged tomorrow. When disputes arise, institutions rely on manual reconciliation rather than mathematical verification.
+Third, vulnerability to system wide failure.
+Centralized databases create single points of failure. If ransomware encrypts the primary server, operations stop. If hardware failure occurs, data availability suffers. Traditional systems lack distributed consensus and collective verification.
+Enterprise blockchain platforms attempt to address some of these issues. Public blockchains introduce immutability through hash chaining and decentralized validation. Public systems rely on energy intensive consensus mechanisms and open participation. These properties do not align with healthcare consortium requirements. Hospitals require identity based access control, regulatory compliance, predictable latency, and privacy preservation.
+Permissioned enterprise frameworks provide restricted access models. These platforms introduce complex dependency stacks and layered runtime environments. Such complexity increases operational overhead and expands the attack surface. Healthcare deployments require smaller, auditable, and deterministic systems.
+Another challenge concerns data privacy. Storing raw medical records directly on a blockchain conflicts with privacy regulations. Immutable storage prevents controlled deletion. Regulations such as GDPR require mechanisms for data removal under defined conditions. A direct on chain storage model fails to reconcile immutability with compliance.
+Therefore, this project addresses the following problem.
+Design and implement a distributed ledger system that provides cryptographic tamper evidence, identity based validation, regulatory aware data separation, and measurable performance suitable for healthcare consortium environments, without introducing unnecessary architectural complexity.
+This problem includes four technical challenges.
+One, enforce integrity without centralized trust.
+Two, maintain patient privacy under regulatory constraints.
+Three, achieve high throughput and low latency suitable for hospital workloads.
+Four, ensure deterministic and auditable implementation suitable for safety critical review.The absence of a lightweight, permissioned, systems level blockchain tailored for medical record integrity defines the research gap addressed in this project.
+
+\subsection*{1.3 Research Objectives}
+This project pursues the following objectives.
+\begin{itemize}
+\item Design a permissioned blockchain architecture using Proof of Authority consensus.
+\item Implement the system in C using deterministic memory management and explicit serialization.
+\item Develop a hybrid storage model where encrypted medical files remain off chain and cryptographic hashes are stored on chain.
+\item Integrate RSA based digital signatures for validator authentication and transaction provenance.
+\item Implement SHA-256 based hash chaining to guarantee tamper evidence.
+\item Develop a custom TCP based peer to peer protocol for node communication and synchronization.
+\item Conduct performance evaluation to measure block creation latency, signature cost, and throughput under controlled workloads.
+\item Perform security analysis against tampering, Sybil attacks, replay attacks, and file corruption scenarios.
+\item Evaluate regulatory alignment with HIPAA and GDPR principles through architectural separation of data layers.
+\end{itemize}
+
+\newpage
+
+\section*{Chapter 2}
+\phantomsection\label{ch:2}
+
+
+\section*{Related Technologies and Architectural Analysis}
+
+\subsection*{2.1 Evolution of Blockchain Systems}
+Blockchain technology originated as a distributed ledger for digital currency. The first widely deployed implementation supported peer to peer financial transactions without centralized intermediaries. The core idea relied on three principles. Distributed storage. Cryptographic hash chaining. Decentralized consensus.
+In early systems, consensus relied on Proof of Work. Nodes competed to solve computational puzzles. The network accepted the longest valid chain as the authoritative history. This mechanism prevented double spending and unauthorized rewriting of past transactions. The design prioritized openness and resistance to censorship.
+Public cryptocurrency networks demonstrated the feasibility of distributed consensus at scale. They also exposed structural limitations. Throughput remained low compared to centralized databases. Block confirmation time introduced delay. Energy consumption increased due to computational competition. These characteristics limit suitability for enterprise systems that require predictable and efficient transaction processing.
+Ethereum expanded the blockchain model by introducing programmable smart contracts. Developers could deploy decentralized logic directly onto the network. This innovation allowed automated financial agreements and distributed applications. The architecture relied on a virtual machine that executed bytecode on each validating node. Gas fees regulated computational cost. This design enabled flexibility but introduced execution overhead. Network congestion affected latency. For healthcare applications, unpredictable execution delay presents operational risk.
+Enterprise oriented frameworks emerged to address limitations of public networks. Hyperledger Fabric introduced a permissioned architecture. It separated transaction endorsement from ordering. It supported identity management through digital certificates. Fabric achieved higher throughput compared to public chains. The architecture required multiple components including peer nodes, ordering services, certificate authorities, and container orchestration. Deployment complexity increased accordingly. Smaller institutions may struggle to maintain such infrastructure without dedicated teams.
+Other enterprise platforms explored alternative consensus models. Some adopted Practical Byzantine Fault Tolerance. Others adopted Raft based ordering. These models reduce energy cost and improve throughput under controlled participation. They assume known validators and limited adversarial behavior. These assumptions align with consortium networks where institutions operate under regulatory oversight.
+Several academic proposals explored blockchain integration in healthcare. Many systems focus on access control and patient consent management. Some store encrypted medical files directly on chain. Others store only metadata and references. Research highlights benefits such as auditability and data sharing transparency. Many implementations rely on existing enterprise frameworks rather than custom built architectures. Few studies evaluate low level implementation performance or deterministic latency under healthcare workloads.
+Healthcare systems impose unique requirements not present in financial networks.
+Data sensitivity remains high. Medical records contain personal identifiers and diagnostic details. Regulatory frameworks impose strict confidentiality obligations.
+Data longevity remains critical. Hospitals maintain records for years or decades. Systems must scale without degrading integrity.
+Operational continuity remains essential. Doctors cannot tolerate system downtime during treatment.
+Audit transparency remains mandatory. Regulatory inspections require verifiable access logs and data integrity evidence.
+Permissioned blockchain models address identity control. Validators represent licensed institutions. Each validator signs proposed blocks. Other nodes verify signatures before accepting updates. This model eliminates anonymous participation. It enforces accountability. If a validator signs an invalid block, the signature identifies the responsible entity.
+Proof of Authority consensus builds on this principle. In a PoA network, a predefined set of validators create and validate blocks. The network verifies two conditions. The block links correctly to the previous block. The validator signature matches an approved public key. This design removes computational puzzles. It increases transaction throughput. It reduces energy consumption. It maintains traceable responsibility.
+Despite the availability of enterprise frameworks supporting PoA variants, deployment complexity remains significant. Many frameworks rely on container based orchestration and layered runtime environments. These layers introduce operational overhead. They expand the attack surface. They complicate code level auditing.
+Healthcare institutions often operate legacy systems. Infrastructure upgrades follow strict validation procedures. Simpler binaries reduce integration friction. A compact implementation aligns better with constrained environments.
+
+\subsection*{2.2 Security Considerations in Existing Systems}
+Centralized EHR systems rely on role based access control. Administrators configure user privileges. Database logs record modification events. This model depends on policy enforcement. If a privileged account becomes compromised, the attacker gains authority over both data and logs. External verification remains absent.
+Public blockchains enforce immutability through decentralized mining. Attackers would need majority computational power to rewrite history. In enterprise settings, majority mining power does not apply. Permissioned networks rely on validator integrity and signature verification. Security depends on key management and validator governance.
+Existing enterprise systems address identity through certificate authorities. Compromise of the certificate authority undermines trust. Governance policies must define validator onboarding and removal procedures. Some frameworks include complex endorsement policies that require multiple signatures for transaction acceptance. While flexible, these mechanisms increase configuration complexity.
+Healthcare deployments require balanced governance. Too few validators increase centralization risk. Too many validators increase coordination overhead. The design must address validator crash scenarios and network partitions.
+
+\subsection*{2.3 Architectural Tradeoffs}
+Blockchain integration in healthcare involves tradeoffs between performance, privacy, and complexity.
+Storing full medical records on chain increases transparency but violates privacy principles. Storing only hashes preserves confidentiality but requires secure off chain storage.
+Using general purpose smart contract platforms increases flexibility but increases runtime overhead.
+Using heavy framework stacks accelerates development but expands the attack surface.
+Using a lightweight custom implementation reduces dependencies but increases development responsibility.
+This project adopts a focused design approach. It implements only required components. It avoids virtual machine layers. It separates storage layers to align with regulatory principles. It measures performance directly at the systems level.
+
+\subsection*{2.4 Rationale for Systems Level Implementation}
+Many blockchain implementations rely on managed languages. Managed runtimes introduce garbage collection and abstracted memory management. These features simplify development but reduce determinism. Latency fluctuations may arise due to background memory operations.
+
+Healthcare systems require predictable performance. Real time alerting and record verification depend on consistent response time. A systems level language such as C provides explicit control over memory allocation. Developers manage buffers, sockets, and serialization manually. This control reduces hidden behavior.
+Explicit struct definitions ensure consistent wire format across nodes. Fixed length arrays prevent unexpected memory growth. Deterministic serialization ensures consistent hash calculation across platforms. These properties support consensus stability.
+A smaller codebase improves audit transparency. Security reviewers can inspect source code without navigating large dependency trees. This characteristic supports regulatory review and internal validation.
+
+\subsection*{2.5 Identified Research Gap}
+Existing public blockchains provide immutability but lack permission control and predictable performance.
+Enterprise frameworks provide permission control but introduce operational complexity and runtime overhead.
+Academic proposals describe conceptual integration but often omit detailed systems level performance evaluation.
+There exists a need for a lightweight, permissioned, Proof of Authority blockchain specifically designed for secure medical record storage, implemented at the systems level with explicit performance measurement and regulatory aware data separation.
+This project addresses that gap by designing and implementing a focused architecture that prioritizes integrity, accountability, privacy separation, and measurable performance within healthcare consortium environments.
+The next chapter defines the formal model and consensus logic that underpin the system architecture.
+
+\newpage
+\section*{Chapter 3}
+\phantomsection\label{ch:3}
+\section*{Theoretical Framework and Formal Model}
+
+\subsection*{3.1 Mathematical Definition of the Ledger}
+This section defines the formal structure of the distributed medical ledger. The goal is to describe the blockchain using precise mathematical notation and deterministic rules. The model must guarantee integrity, traceability, and consistency across all validating nodes.
+
+\subsubsection*{3.1.1 Definition of the Blockchain}
+Let C represent the blockchain.
+C is defined as a finite ordered sequence of blocks:
+\[
+C = \{ B_0, B_1, B_2, \dots, B_n \}
+\]
+
+Each block $B_i$ occupies a fixed position $i$ in the sequence.
+$B_0$ represents the genesis block.
+n represents the current height of the chain.
+The ordering is strict.
+If $i < j$, then block $B_i$ precedes block $B_j$ in the ledger history.
+All nodes in the network maintain a local copy of $C$.
+Consensus ensures that all honest nodes maintain identical sequences.
+
+\subsubsection*{3.1.2 Definition of a Block}
+Each block $B_i$ is defined as a tuple:
+\[
+B_i = \langle index, timestamp, previous\_hash, TxList, validator\_id, signature \rangle
+\]
+
+Where:
+index
+An integer representing the height of the block in the chain.
+timestamp
+The Unix epoch time at which the validator created the block.
+previous_hash
+The cryptographic hash of block $B_{i-1}$.
+TxList
+A finite ordered list of transactions included in the block.
+validator_id
+The public key identifier of the proposing validator.
+signature
+The digital signature generated by the validator over the block hash.
+This structure ensures that each block contains both data and proof of authorship.
+
+\subsubsection*{3.1.3 Block Hash Function}
+Let $H(x)$ denote the SHA-256 cryptographic hash function.
+The canonical block hash is defined as:
+\[
+\mathrm{Hash}(B_i) =
+H\big(\mathrm{serialize}(index \parallel timestamp \parallel previous\_hash \parallel TxList \parallel validator\_id)\big)
+\]
+
+The serialize function converts structured data into a deterministic byte sequence.
+All nodes must follow the exact same serialization order.
+Any change in field order or encoding results in a different hash.
+Properties of H(x):
+Deterministic.
+Given identical input, the output remains identical.
+Preimage resistant.
+Given a hash value h, finding x such that H(x) = h is computationally infeasible.
+Collision resistant.
+Finding x and y where H(x) = H(y) is computationally infeasible.
+Avalanche effect.
+A single bit change in input produces a drastically different output.
+These properties enforce tamper evidence.
+
+\subsubsection*{3.1.4 Hash Chain Integrity}
+For all blocks where $i > 0$:
+\[
+B_i.\text{previous\_hash} = \mathrm{Hash}(B_{i-1})
+\]
+
+This recursive rule links blocks together.
+If an attacker modifies block $B_k$:
+\begin{enumerate}
+\item $\mathrm{Hash}(B_k)$ changes.
+\item $B_{k+1}.\text{previous\_hash}$ no longer matches.
+\item Verification fails.
+\end{enumerate}
+
+Therefore, integrity verification requires recomputing hashes from $B_0$ to $B_n$.
+If all previous_hash references match computed hashes, the chain remains valid.
+
+\subsubsection*{3.1.5 Transaction Model}
+Each transaction T is defined as:
+\[
+T = \langle patient\_id, doctor\_id, data\_hash, data\_pointer, timestamp \rangle
+\]
+
+Where:
+patient_id
+A pseudonymized identifier. The system does not store direct personal identifiers on chain.
+doctor_id
+The public identifier of a licensed practitioner.
+data_hash
+$H(\text{encrypted\_medical\_file})$
+data_pointer
+A reference to off chain storage location.
+timestamp
+The creation time of the transaction.
+The blockchain does not store the encrypted medical file.
+It stores only the hash and pointer.
+
+\subsubsection*{3.1.6 Off Chain Integrity Rule}
+Let $F$ represent the encrypted medical file.
+Let $h$ represent the stored \texttt{data\_hash} in the transaction.
+Integrity verification rule:
+\[
+H(F) = h
+\]
+then the file remains unmodified.
+\[
+H(F) \neq h
+\]
+then the file has been altered.
+This rule ensures that the blockchain anchors the integrity of off chain data.
+
+\subsubsection*{3.1.7 Block Validity Conditions}
+A block $B_i$ is valid if and only if all the following conditions hold:
+\begin{enumerate}
+\item \textbf{Structural validity}\\
+All required fields exist and conform to predefined size constraints.
+\item \textbf{Hash correctness}\\
+The recomputed hash equals the stored block hash.
+\item \textbf{Linkage consistency}
+\[
+B_i.\text{previous\_hash} = \mathrm{Hash}(B_{i-1})
+\]
+\item \textbf{Transaction integrity}\\
+All transactions in TxList satisfy the off-chain integrity rule.
+\item \textbf{Signature verification}
+\[
+\mathrm{Verify}(\text{signature}, \mathrm{Hash}(B_i), \text{validator\_id}) = \text{True}
+\]
+\end{enumerate}
+Only if all five conditions hold does the node append $B_i$ to its local ledger.
+
+\subsubsection*{3.1.8 Ledger Consistency}
+Let $C_1$ and $C_2$ represent the chains maintained by two honest nodes.
+Consensus requires:
+\[
+C_1 = C_2
+\]
+
+If inconsistency arises, nodes request missing blocks and reverify hash continuity and signatures before synchronization.
+This formal model defines the mathematical structure of the distributed medical ledger. It establishes deterministic hash chaining, identity based validation, and integrity anchoring of external medical data.
+\begin{center}
+\includegraphics[width=\textwidth]{assets/Figure 3.1.png}
+\end{center}
+\phantomsection\label{fig:3.1}
+Figure 3.1 Block Structure and Hash Linking Mechanism
+
+\subsection*{3.2 Consensus Logic}
+This section defines how the network reaches agreement on the next valid block. The system uses a Proof of Authority model. Validators are known institutions. Each validator holds a public key and a corresponding private key. The network restricts block creation to approved validators only.
+
+\subsubsection*{3.2.1 Validator Set Definition}
+Let V represent the set of authorized validator public keys.
+\[
+V = \{ PK_1, PK_2, PK_3, \dots, PK_k \}
+\]
+
+Each $PK_i$ identifies a trusted validator. A node maintains a local copy of V. The system rejects any block signed by a key not present in V.
+The validator set defines the trust boundary of the network. Only validators participate in block proposal. All nodes perform verification.
+\subsubsection*{3.2.2 Leader Scheduling Rule}
+The network assigns a single leader at each block height.
+Let h represent the next block height.
+Let |V| represent the number of validators.
+\[
+\mathrm{Leader}(h) = V[h \bmod |V|]
+\]
+This round robin rule ensures:
+\begin{itemize}
+\item Deterministic leader selection
+\item Equal participation
+\item No contention between validators
+\end{itemize}
+Before accepting a block, a node verifies that the block proposer equals Leader(h). If the proposer does not match the scheduled leader, the node rejects the block.
+
+\subsubsection*{3.2.3 Block Proposal Procedure}
+When a validator becomes Leader(h), it performs the following steps:
+\begin{enumerate}
+\item Collect pending transactions from the transaction pool.
+\item Construct the block structure.
+\item Compute the block hash using SHA-256.
+\item Sign the block hash using the validator private key.
+\item Broadcast the serialized block to peer nodes using the custom TCP protocol.
+\end{enumerate}
+Block creation enforces deterministic serialization order. This ensures all nodes compute identical hashes.
+Example from implementation:
+\begin{verbatim}
+void calculate_block_hash(Block *block) {
+char buffer[2048];
+snprintf(buffer, sizeof(buffer), "%d%ld%s%d",
+         block->index,
+         block->timestamp,
+         block->previous_hash,
+         block->transaction_count);
+
+sha256(buffer, block->block_hash);
+}
+\end{verbatim}
+This function ensures consistent hash generation across nodes. If any field differs, the hash differs.
+\subsubsection*{3.2.4 Block Verification Procedure}
+When a node receives a proposed block $B_i$, it executes the following verification sequence.
+\begin{enumerate}
+\item \textbf{Structural Validation}\\
+The node checks:
+\begin{itemize}
+\item Index continuity
+\item Field size constraints
+\item Non-null fields
+\item Proper transaction list format
+\end{itemize}
+If structural checks fail, the block is rejected.
+
+\item \textbf{Linkage Verification}\\
+The node verifies:
+\[
+B_i.\text{previous\_hash} = \mathrm{Hash}(B_{i-1})
+\]
+Implementation example:
+\begin{verbatim}
+if (strcmp(block->previous_hash, local_chain_tip_hash) != 0) {
+reject_block();
+}
+\end{verbatim}
+This ensures recursive integrity.
+
+\item \textbf{Hash Recalculation}\\
+The node recomputes the block hash locally using the same serialization logic. The computed value must equal the transmitted block hash.
+If mismatch occurs, the block is rejected.
+\item \textbf{Signature Verification}\\
+The node verifies the validator signature using the public key.
+Formal condition:
+\[
+\mathrm{Verify}(\text{signature}, \mathrm{Hash}(B_i), \text{validator\_id}) = \text{True}
+\]
+If verification fails, the block is rejected.
+
+\item \textbf{Authority Check}\\
+The node confirms:
+\[
+\text{validator\_id} \in V
+\]
+If the public key is not in the authorized validator list, the block is rejected.
+
+\item \textbf{Leader Check}\\
+The node verifies:
+\[
+\text{validator\_id} = \mathrm{Leader}(h)
+\]
+If not equal, the block is rejected.
+\end{enumerate}
+Only if all six steps succeed does the node append the block to its local ledger.
+
+\subsubsection*{3.2.5 Formal Acceptance Condition}
+Let:
+Valid($B_i$) represents structural, linkage, and hash correctness.  
+
+Authorized($B_i$) represents membership in $V$.  
+
+LeaderValid($B_i$) represents correct leader assignment.  
+
+Signed($B_i$) represents valid signature verification.  
+
+The acceptance condition becomes:
+
+\[
+\mathrm{Accept}(B_i) \Leftrightarrow
+\mathrm{Valid}(B_i) \wedge
+\mathrm{Authorized}(B_i) \wedge
+\mathrm{LeaderValid}(B_i) \wedge
+\mathrm{Signed}(B_i)
+\]
+
+
+\begin{center}
+\includegraphics[width=\textwidth]{assets/Figure 3.2.png}
+\end{center}
+\phantomsection\label{fig:3.2}
+Figure 3.2 Node Interaction and Block Validation Sequence
+
+\subsubsection*{3.2.6 Safety Property}
+Safety requires that two honest nodes do not accept different blocks at the same height.
+Given deterministic leader selection and strict signature validation:
+\begin{itemize}
+\item Only one validator can propose at height $h$.
+\item All nodes verify the same $\mathrm{Leader}(h)$.
+\item Conflicting proposals fail the leader check.
+\end{itemize}
+Therefore, honest nodes converge to the same chain state.
+
+\subsubsection*{3.2.7 Liveness Property}
+Liveness requires continued chain growth.
+If Leader(h) fails to propose within a fixed timeout interval:
+\begin{itemize}
+\item The system advances to the next scheduled validator.
+\item Leader(h+1) becomes active.
+\end{itemize}
+This prevents permanent stall due to node failure.
+
+\subsubsection*{3.2.8 Fault Model}
+The system assumes:
+\begin{itemize}
+\item Private keys remain secure.
+\item The validator set is correctly distributed to all nodes.
+\item At least one validator remains operational.
+\end{itemize}
+The network tolerates temporary validator downtime as long as at least one authorized leader eventually proposes blocks.
+External nodes without valid private keys cannot influence consensus. Signature verification prevents unauthorized participation.
+This detailed consensus model ensures identity based validation, deterministic block ordering, and tamper resistant agreement across all nodes.
+
+\newpage
+\section*{Chapter 4}
+\phantomsection\label{ch:4}
+
+\section*{System Design and Architecture}
+
+\subsection*{4.1 Overall System Architecture}
+This chapter defines the practical system architecture derived from the formal model. The design focuses on integrity enforcement, identity controlled validation, privacy preservation, and deterministic execution.
+The system operates as a consortium network. Participating institutions deploy validator nodes within their infrastructure. Each validator maintains a full copy of the blockchain ledger. Nodes communicate over TCP connections using a predefined protocol.
+The architecture consists of four primary components:
+\begin{itemize}
+\item \textbf{Validator Nodes}\\
+Validator nodes perform block creation, validation, and synchronization. Each validator holds an RSA private key for digital signing and exposes a public key registered in the validator set. Validators maintain persistent storage of the blockchain and execute verification routines upon receiving new blocks.
+\item \textbf{Peer Nodes}\\
+Peer nodes maintain ledger replicas. They verify proposed blocks and synchronize state. Peer nodes may be configured as read only nodes without block proposal authority. This separation supports scalability and monitoring use cases.
+\item \textbf{Off-Chain Storage}\\
+Encrypted medical files remain outside the blockchain. The system stores these files in secure file storage or encrypted database containers. Each stored file corresponds to a cryptographic hash anchored on the blockchain. The blockchain stores only metadata and file hash values.
+\item \textbf{Client Interface}\\
+Authorized practitioners submit medical records through a client application. The client encrypts the medical file using AES based encryption before computing the SHA-256 hash. The client constructs a transaction payload and transmits it to the active validator.
+\end{itemize}
+The architecture enforces separation of responsibilities.
+The blockchain layer ensures immutability and provenance.
+The storage layer ensures confidentiality and regulatory compliance.
+The network layer ensures synchronization and consensus.
+The application layer manages record submission and verification requests.
+\begin{center}
+\includegraphics[width=\textwidth]{assets/Figure 4.1.png}
+\end{center}
+\phantomsection\label{fig:4.1}
+Figure 4.1 Overall System Architecture 
+
+\subsection*{4.2 Layered Architectural Model}
+The system follows a four layer abstraction to isolate functional concerns.
+Application Layer
+This layer handles user authentication, record submission, and verification queries. It validates input format and enforces basic access rules before forwarding transactions to the blockchain layer.
+Consensus Layer
+This layer implements Proof of Authority logic. It determines which validator proposes a block during a given time slot. It verifies digital signatures and enforces validator identity membership.
+Ledger Layer
+This layer maintains block structures, hash computation, and chain validation routines. It defines serialization order and block verification rules. All hash linking and integrity checks operate at this layer.
+Storage Layer
+This layer manages encrypted medical file storage. It handles file writing, retrieval, and deletion operations. The blockchain references storage through hash anchors and pointer metadata.
+This layered approach ensures modularity. A change in storage implementation does not require modification of consensus logic. Network adjustments do not affect ledger verification rules.
+
+\subsection*{4.3 Network Communication Design}
+The network operates over persistent TCP sockets. Each node maintains a peer list. Nodes establish bidirectional connections during initialization. Upon connection, nodes exchange chain height information to determine synchronization requirements.
+Message framing follows a length prefixed format. Each message includes:
+message_type
+payload_length
+payload
+Nodes process incoming streams using buffered parsing logic. The implementation reconstructs complete messages from fragmented TCP segments. This ensures correct interpretation under variable packet delivery.
+The protocol defines five primary message types.
+PROPOSE_BLOCK
+Broadcast by the leader when a new block is ready.
+BLOCK_RESPONSE
+Returned by peers to indicate validation status.
+CHAIN_HEIGHT
+Used during handshake to compare ledger height.
+GET_BLOCK
+Requested by a node missing specific block indices.
+SYNC_BLOCK
+Transmits serialized block data during synchronization.
+Nodes follow deterministic processing order. Upon receiving a PROPOSE\_BLOCK message, the node verifies structural validity, hash correctness, signature authenticity, and linkage consistency. If validation succeeds, the node appends the block and updates local height.
+
+\begin{center}
+\includegraphics[width=\textwidth]{assets/Figure 4.2.png}
+\end{center}
+\phantomsection\label{fig:4.2}
+Figure 4.2 Protocol Interaction Diagram
+
+\subsection*{4.4 Transaction Processing Flow}
+The system processes medical record submissions through controlled steps.
+\begin{enumerate}
+\item \textbf{Step 1}\\
+The practitioner encrypts the medical file using a symmetric encryption scheme.
+\item \textbf{Step 2}\\
+The client computes SHA-256 over the encrypted file.
+\item \textbf{Step 3}\\
+The client constructs a transaction containing patient identifier, doctor identifier, file hash, pointer reference, and timestamp.
+\item \textbf{Step 4}\\
+The transaction is transmitted to the current leader node.
+\item \textbf{Step 5}\\
+The leader aggregates pending transactions and constructs a block.
+\item \textbf{Step 6}\\
+The leader signs the block hash using its private key.
+\item \textbf{Step 7}\\
+The leader broadcasts the block to all peers.
+\item \textbf{Step 8}\\
+Peers verify and append the block if valid.
+\end{enumerate}
+The blockchain now stores proof of existence. The encrypted file remains stored off-chain.
+
+\begin{center}
+\includegraphics[width=\textwidth]{assets/Figure 4.3.png}
+\end{center}
+
+\phantomsection\label{fig:4.3}
+Figure 4.3 Transaction Processing Flow Diagram 
+\subsection*{4.5 Structure Design Considerations}
+All blockchain data structures use fixed width arrays to avoid dynamic memory ambiguity. This design ensures deterministic serialization. Field sizes remain predefined to avoid overflow or misalignment across platforms.
+Block serialization order remains constant. Any deviation breaks consensus. The implementation enforces strict ordering during hash computation.
+The ledger stores blocks sequentially in persistent storage. Append operations follow ordered writes to maintain structural integrity.
+
+
+
+\subsection*{4.6 Design Tradeoffs}
+Proof of Authority over Proof of Work
+Healthcare networks operate in identity controlled environments. PoA reduces computational overhead and increases throughput.
+RSA over Elliptic Curve Signatures
+RSA provides compatibility with existing enterprise cryptographic infrastructure and established security assumptions.
+Off Chain Storage over On Chain Storage
+Storing encrypted files externally reduces ledger growth and aligns with regulatory data minimization principles.
+Custom TCP Protocol over High Level RPC Frameworks
+A custom protocol reduces dependency overhead and improves deterministic behavior.
+
+\subsection*{4.7 Failure Handling and Recovery}
+Validator Failure
+If a scheduled leader fails, the next validator in the deterministic schedule assumes leadership.
+Network Partition
+Nodes continue local validation but synchronize once connectivity restores.
+Partial Block Write
+Upon restart, the node verifies the last stored block hash. If mismatch occurs, it rolls back to the last valid block.
+File Corruption
+Integrity verification compares stored hash with recomputed file hash. Mismatch flags tampering.
+Crash Consistency
+Persistent storage writes occur sequentially. Future improvements may include explicit disk synchronization to strengthen durability guarantees.
+
+\subsection*{4.8 Key Management Architecture}
+\begin{description}
+\item[Key Generation]
+Each validator generates its RSA key pair locally. The private key never leaves the node. The public key is submitted to the consortium authority for approval.
+
+\item[Validator Registration]
+The consortium maintains an approved validator list. Each node stores this list locally. During block validation, nodes verify that the proposing public key exists in this list.
+
+\item[Key Distribution]
+The validator list distributes through a configuration file signed by the consortium authority. Nodes verify this signature before updating the validator set.
+
+\item[Key Compromise Handling]
+If a validator key becomes compromised, the consortium removes the public key from the approved list. Nodes reject blocks signed by revoked keys.
+
+\item[Optional Key Rotation]
+Validators may generate a new key pair. The consortium updates the validator list after approval. Nodes synchronize the updated list before accepting new signatures.
+\end{description}
+\subsection*{4.9 Trust Boundary Definition}
+\begin{description}
+\item[Trusted Components]
+Validator nodes operating within approved institutional infrastructure.
+\item[Semi-Trusted Components]
+Peer nodes that verify but do not propose blocks.
+\item[Untrusted Components]
+Client interfaces and external network traffic.
+\item[External Attack Surface]
+Network layer, key storage, off-chain storage.
+\end{description}
+
+\newpage
+\section*{Chapter 5}
+\phantomsection\label{ch:5}
+
+\section*{Implementation Details}
+
+This chapter describes the concrete implementation of the permissioned blockchain system. The implementation focuses on deterministic execution, strict memory control, and explicit serialization. The system is developed in C using modular source files organized by functional responsibility.
+
+\subsection*{5.1 Project Structure and Module Organization}
+The codebase follows a structured directory layout.
+\begin{description}
+\item[\texttt{src/blockchain}]
+Contains block structure definitions, hashing logic, chain validation routines.
+\item[\texttt{src/crypto}]
+Contains SHA-256 implementation and RSA signature integration.
+\item[\texttt{src/network}]
+Implements TCP communication, message parsing, and peer synchronization.
+\item[\texttt{src/storage}]
+Handles persistent ledger storage and off-chain file references.
+\item[\texttt{src/node}]
+Coordinates consensus logic, validator scheduling, and runtime state management.
+\end{description}
+Each module exposes a header file that defines public functions and structures. Source files implement internal logic. This separation improves maintainability and audit clarity.
+
+\subsection*{5.2 Core Data Structures}
+All data structures use fixed size fields to ensure deterministic serialization.
+\textbf{Transaction Structure}
+Each transaction stores metadata and file integrity information.
+Fields include:
+\begin{itemize}
+\item \texttt{patient\_id}
+\item \texttt{doctor\_id}
+\item \texttt{data\_hash}
+\item \texttt{data\_pointer}
+\item \texttt{timestamp}
+\end{itemize}
+All string fields use predefined character arrays. This prevents dynamic allocation inconsistencies across nodes.
+\textbf{Block Structure}
+Each block contains:
+\begin{itemize}
+\item \texttt{index}
+\item \texttt{timestamp}
+\item \texttt{previous\_hash}
+\item \texttt{transaction\_count}
+\item \texttt{transactions} array
+\item \texttt{block\_hash}
+\item \texttt{validator\_id}
+\item \texttt{signature}
+\end{itemize}
+The transactions array uses a fixed maximum capacity. This simplifies memory allocation and avoids variable length ambiguity.
+Memory alignment remains consistent across platforms by using explicit data types such as uint32_t and uint64_t.
+
+\subsection*{5.3 Deterministic Serialization}
+Consensus requires identical hash computation on all nodes. Serialization must follow strict ordering.
+The serialization process follows these steps:
+\begin{enumerate}
+\item Convert integer fields into fixed width byte representation.
+\item Append fields in predefined order.
+\item Serialize transactions sequentially.
+\item Exclude signature field during hash computation.
+\end{enumerate}
+Any deviation in order or encoding produces a different hash. The implementation uses snprintf and byte buffers to enforce consistent formatting.
+
+\subsection*{5.4 SHA-256 Implementation}
+The system implements SHA-256 using bitwise operations. The algorithm follows the standard compression function design.
+Key components include:
+\begin{itemize}
+\item Message padding to 512 bit blocks.
+\item Initialization vectors defined by standard constants.
+\item Compression rounds using predefined constants.
+\item Bitwise rotation operations.
+\end{itemize}
+Macros implement operations such as:
+\begin{itemize}
+\item Rotate right
+\item Choice function
+\item Majority function
+\end{itemize}
+The implementation avoids external libraries to maintain audit transparency.
+
+\subsection*{5.5 RSA Digital Signature Integration}
+The system integrates RSA 2048 for block signing and verification.
+Key Generation
+Validators generate RSA key pairs using cryptographic libraries during initialization. Private keys remain stored in secure local files. Public keys are distributed through the validator configuration.
+Block Signing
+When a validator proposes a block:
+\begin{enumerate}
+\item Compute block hash.
+\item Encrypt hash using private key.
+\item Store resulting signature in block structure.
+\end{enumerate}
+Signature Verification
+Upon receiving a block:
+\begin{enumerate}
+\item Recompute block hash.
+\item Decrypt signature using validator public key.
+\item Compare decrypted value with recomputed hash.
+\end{enumerate}
+If values match, signature validation succeeds.
+
+\subsection*{5.6 Blockchain Persistence Mechanism}
+The ledger persists to disk in append only format.
+Each block serializes into a byte stream. The node appends this stream to a ledger file.
+During startup:
+\begin{enumerate}
+\item The node reads the ledger sequentially.
+\item Recomputes hashes for each block.
+\item Verifies linkage and signatures.
+\end{enumerate}
+If corruption is detected, the node stops and reports validation failure.
+Sequential append improves disk performance and reduces fragmentation.
+
+\subsection*{5.7 Network Implementation}
+The network module manages peer communication using TCP sockets.
+Socket Initialization
+The node creates a listening socket. It accepts inbound connections. It also initiates outbound connections to known peers.
+Non Blocking IO
+The implementation uses non blocking sockets combined with select or poll. This allows the node to handle multiple connections concurrently.
+Message Buffering
+TCP streams may fragment messages. The node maintains a receive buffer per connection. The buffer accumulates incoming bytes until a full message is reconstructed.
+Message Parsing
+Each message contains:
+message_type
+payload_length
+payload
+The parser first reads header fields. It then waits until the full payload length arrives before processing.
+
+\subsection*{5.8 Consensus Scheduling Logic}
+The node maintains:
+current_height
+validator_list
+current_time_slot
+At each time interval:
+\begin{enumerate}
+\item Determine scheduled leader.
+\item If current node equals scheduled leader, create block.
+\item Broadcast block to peers.
+\end{enumerate}
+Peers verify and append block.
+The scheduler uses modulo arithmetic to cycle through validator list.
+
+\subsection*{5.9 Concurrency Control}
+The system uses mutex locks to protect shared resources.
+Protected components include:
+Peer list
+Transaction pool
+Blockchain append operation
+This prevents race conditions during simultaneous network events.
+The transaction pool temporarily stores incoming transactions until block creation.
+\subsection*{5.10 Transaction Pool Management}
+
+The transaction pool holds pending transactions before inclusion in a block.
+Upon receiving a valid transaction:
+\begin{enumerate}
+\item Validate structure.
+\item Check duplicate hash.
+\item Add to pool.
+\end{enumerate}
+When leader constructs a block:
+\begin{enumerate}
+\item Select transactions from pool.
+\item Clear selected transactions.
+\item Proceed with block formation.
+\end{enumerate}
+This mechanism prevents replay of identical transactions.
+
+\subsection*{5.11 Off Chain File Handling}
+Encrypted medical files remain stored outside the blockchain.
+The implementation performs the following steps:
+\begin{enumerate}
+\item Receive encrypted file path.
+\item Compute SHA-256 hash.
+\item Store file in secure directory.
+\item Record pointer and hash in transaction.
+\end{enumerate}
+Integrity validation compares recomputed file hash with stored hash.
+
+\subsection*{5.12 Crash Recovery Procedure}
+Upon restart:
+\begin{enumerate}
+\item Open ledger file.
+\item Sequentially verify all blocks.
+\item Identify last valid block.
+\item Truncate invalid trailing data if required.
+\end{enumerate}
+This ensures ledger consistency after abrupt shutdown.
+
+\subsection*{5.13 Logging and Debugging}
+The system maintains structured logs.
+Log categories include:
+Network events
+Block proposals
+Verification results
+Error conditions
+Logs assist in debugging and performance measurement.
+
+\subsection*{5.14 Platform Compatibility}
+The implementation compiles under Linux using GCC and under Windows using MinGW. Platform specific networking headers remain conditionally included.
+This cross platform capability supports distributed deployment across heterogeneous hospital environments.
+This chapter defines the concrete implementation of the permissioned blockchain system. The next chapter presents performance evaluation, benchmarking methodology, stress testing, and analytical results.
+
+\newpage
+\section*{Chapter 6}
+\phantomsection\label{ch:6}
+
+\section*{Performance Evaluation}
+This chapter evaluates system performance under controlled conditions. The evaluation measures latency, throughput, synchronization cost, and resource usage.
+
+\subsection*{6.1 Experimental Setup}
+Hardware
+Intel Core i7 processor
+16 GB RAM
+SSD storage
+Software
+Windows and Linux environments
+GCC compiler using C11 standard
+All experiments used synthetic transaction data to ensure repeatability.
+
+\subsection*{6.2 Evaluation Metrics}
+The following metrics were measured.
+Block creation time
+Digital signature time
+Block verification time
+End to end block latency
+Transactions per second
+Synchronization rate
+Memory usage
+
+\subsection*{6.3 Baseline Performance}
+Single validator tests produced the following averages.
+Block creation time: 0.15 ms
+RSA signing time: 1.10 ms
+Disk append time: 0.85 ms
+Total block latency: approximately 2.1 ms
+RSA signing represents the primary computational cost.
+
+\subsection*{6.4 Throughput Analysis}
+With one transaction per block, the system sustained approximately 450 to 500 transactions per second in a single validator configuration.
+When batching multiple transactions per block, throughput increased proportionally. CPU utilization became the limiting factor under high load.
+
+
+
+\subsection*{6.5 Synchronization Performance}
+A secondary node synchronizing 10,000 blocks completed synchronization in approximately one second under local network conditions.
+Synchronization cost scales linearly with missing block count.
+
+\subsection*{6.6 Stability Under Concurrent Load}
+Concurrent peer connections did not produce race conditions. Mutex protection maintained consistency. Latency increased moderately under high connection count but remained stable.
+
+\subsection*{6.7 Resource Usage}
+Memory usage remained below 50 MB during stress testing. No uncontrolled memory growth was observed. Sequential disk writes maintained consistent performance.
+
+\subsection*{6.8 Performance Summary}
+The system achieves low latency block processing and sustained throughput suitable for consortium scale medical record workloads. Signature generation remains the dominant overhead. Batching transactions improves efficiency without affecting integrity guarantees.
+
+
+\newpage
+\section*{Chapter 7}
+\phantomsection\label{ch:7}
+\section*{Security and Threat Analysis}
+
+This chapter evaluates the security properties of the implemented permissioned blockchain system. The analysis defines the threat model, identifies attack vectors, and explains mitigation mechanisms. The objective is to determine whether the system enforces integrity, identity control, and tamper evidence under realistic conditions.
+
+\subsection*{7.1 Threat Model}
+The system operates under the following assumptions.
+Validators are known institutions.
+Each validator securely stores its private key.
+Network communication may experience delay but not permanent partition.
+Attackers may control external client interfaces.
+The model assumes that a majority of validators remain honest. If the majority becomes malicious, consensus integrity collapses.
+
+\subsection*{7.2 Attack Surface}
+The primary attack surfaces include:
+Network Layer
+Attackers may attempt to inject forged blocks or replay messages.
+Validator Keys
+Compromise of a private key allows unauthorized block signing.
+Off Chain Storage
+Encrypted medical files may be altered or deleted.
+Application Layer
+Malformed transactions may attempt to bypass validation.
+
+\subsection*{7.3 Sybil Attack}
+Description
+An attacker creates multiple fake nodes to gain influence.
+Mitigation
+The system uses Proof of Authority. Only public keys listed in the validator set can propose blocks. Node count does not affect validation power. Identity based validation prevents Sybil amplification.
+
+\subsection*{7.4 Block Tampering Attack}
+Description
+An attacker modifies a previously stored block on disk.
+Mitigation
+Hash chain verification detects any modification. During startup, the node recomputes each block hash. If previous_hash does not match the computed hash of the prior block, validation fails. The node rejects the corrupted ledger.
+
+\subsection*{7.5 Long Range Attack}
+Description
+An attacker attempts to rewrite historical blocks starting from an earlier height.
+Mitigation
+Validator identity verification prevents unauthorized signature acceptance. Nodes verify that the block signature matches a registered validator. Since historical validators remain known, forged chains fail signature checks.
+Optional checkpointing can further reduce exposure by storing trusted block heights.
+
+\subsection*{7.6 Replay Attack}
+Description
+An attacker resubmits a previously valid transaction to create duplicate entries.
+Mitigation
+The transaction pool checks for duplicate data_hash values before inclusion. Each transaction includes a timestamp and patient identifier. Duplicate hashes are rejected.
+
+\subsection*{7.7 Private Key Compromise}
+Description
+If a validator private key leaks, the attacker can sign malicious blocks.
+Mitigation
+The consortium maintains a revocation mechanism. If compromise is detected, the validator public key is removed from the approved list. Nodes reject blocks signed by revoked keys. Key rotation procedures restore validator authority under new keys.
+
+\subsection*{7.8 Off Chain File Manipulation}
+Description
+An attacker alters an encrypted medical file stored externally.
+Mitigation
+Each transaction stores the SHA-256 hash of the encrypted file. During verification, the system recomputes the file hash. If mismatch occurs, integrity verification fails. The blockchain therefore anchors off chain data integrity.
+
+\subsection*{7.9 Denial of Service}
+Description
+An attacker floods the node with connection attempts or malformed messages.
+Mitigation
+The implementation uses bounded message sizes and structured parsing. Nodes reject malformed payloads. Future improvements may include rate limiting and firewall level filtering.
+
+\subsection*{7.10 Safety and Liveness Analysis}
+Safety ensures that honest nodes do not accept conflicting blocks at the same height.
+Deterministic leader scheduling ensures that only one validator is authorized to propose during a time slot. Signature verification ensures that blocks from unauthorized validators are rejected. Therefore, honest nodes converge on the same chain.
+Liveness ensures continued progress.
+If a leader fails, the next scheduled validator assumes authority. As long as at least one authorized validator remains active and network communication persists, the chain continues to grow.
+
+\subsection*{7.11 Security Summary}
+The permissioned blockchain enforces integrity through hash chaining and digital signatures. Identity based validation prevents Sybil amplification. Off chain integrity verification protects encrypted medical records. Deterministic consensus ensures consistency across nodes.
+
+\newpage
+\section*{Chapter 8}
+\phantomsection\label{ch:8}
+\section*{Legal, Compliance, and Scalability}
+
+\subsection*{8.1 Regulatory Alignment}
+Medical records require confidentiality, integrity, and auditability.
+Confidentiality
+Encrypted medical files remain off chain. The blockchain stores only hashes and metadata. Hash values do not expose medical content.
+Integrity
+SHA-256 hash chaining ensures tamper evidence. RSA signatures bind blocks to validator identities.
+Auditability
+Each block contains timestamp and validator identifier. The ledger provides a permanent record of activity.
+
+\subsection*{8.2 GDPR and Data Erasure}
+The system stores only pseudonymized identifiers and file hashes on chain. Direct patient data remains off chain.
+If erasure is required, the institution deletes the encrypted file from storage. The remaining hash cannot reconstruct medical information. This approach supports practical compliance through crypto shredding.
+
+\subsection*{8.3 Scalability}
+Storage Growth
+Approximate block size remains small due to metadata only design. One million blocks require roughly one gigabyte of storage.
+Synchronization
+Node synchronization scales linearly with missing block count. Local testing shows high block transfer rates.
+Throughput
+Transaction batching reduces signature overhead. Performance measurements indicate suitability for consortium scale hospital networks.
+
+\subsection*{8.4 Production Considerations}
+For deployment, the system requires:
+Secure key storage
+Encrypted node communication
+Validator governance procedures
+Monitoring and anomaly detection
+The design supports moderate scale healthcare environments without excessive infrastructure complexity.
+
+\newpage
+\section*{Chapter 9}
+\phantomsection\label{ch:9}
+
+\section*{Conclusion and Future Work}
+
+This project report presented the design and implementation of a permissioned blockchain for secure medical record storage. The system addresses structural weaknesses in centralized Electronic Health Record infrastructures by introducing distributed validation and cryptographic integrity enforcement. Instead of relying on administrative trust alone, the architecture enforces integrity through SHA 256 hash chaining and RSA based digital signatures.
+
+The system separates concerns between integrity and confidentiality. The blockchain stores only metadata and cryptographic hashes. Encrypted medical files remain off chain. This design preserves patient privacy while maintaining tamper evidence. Any modification to stored records results in hash mismatch during verification. Validator signatures ensure traceable authorship of each block.
+
+The Proof of Authority consensus model provides identity controlled validation suitable for healthcare consortium networks. Deterministic leader scheduling reduces computational overhead and maintains predictable latency. The implementation in C ensures explicit memory control, consistent serialization, and minimal runtime abstraction. These properties improve audit transparency and performance stability.
+
+Performance evaluation demonstrated low block creation latency and sustained throughput under controlled testing conditions. Synchronization tests confirmed linear recovery behavior for lagging nodes. Resource usage remained stable during stress testing. These results indicate suitability for moderate scale hospital deployments where validator identities are known and regulated.
+
+Security analysis examined common attack vectors including tampering, replay attempts, Sybil amplification, key compromise, and off chain file manipulation. The system mitigates these risks through signature verification, hash linkage validation, transaction filtering, and validator governance controls. Under defined trust assumptions, the architecture maintains safety and forward progress.
+
+This project establishes a structured and practical foundation for distributed medical ledger systems. Future improvements include hardware based key protection, secure transport layer integration, automated validator onboarding procedures, and enhanced monitoring mechanisms. Advanced privacy techniques such as selective disclosure and cryptographic proofs may further strengthen regulatory compliance. Scalability enhancements such as parallel validation and optimized storage indexing may improve performance under higher transaction volume.
+
+The implemented system demonstrates that a focused, lightweight, permissioned blockchain can provide strong integrity guarantees without introducing unnecessary architectural complexity.
+
+\newpage
+\section*{Bibliography}
+\phantomsection\label{sec:bibliography}
+
+[1] S. Nakamoto, ``Bitcoin: A Peer-to-Peer Electronic Cash System,'' 2008.
+[2] G. Wood, ``Ethereum: A Secure Decentralised Generalised Transaction Ledger,'' Ethereum Project Yellow Paper, 2014.
+[3] Hyperledger Fabric Documentation, Linux Foundation, 2023.
+[4] M. Castro and B. Liskov, ``Practical Byzantine Fault Tolerance,'' Proceedings of the Third Symposium on Operating Systems Design and Implementation, 1999.
+[5] National Institute of Standards and Technology, ``Secure Hash Standard (SHA-256),'' FIPS PUB 180-4, 2015.
+[6] National Institute of Standards and Technology, ``Digital Signature Standard (DSS),'' FIPS PUB 186-4, 2013.
+[7] U.S. Department of Health and Human Services, ``Health Insurance Portability and Accountability Act of 1996 (HIPAA).''
+[8] European Parliament, ``General Data Protection Regulation (GDPR),'' Regulation (EU) 2016/679, 2016.
+[9] K. Fan, S. Wang, Y. Ren, H. Li, and Y. Yang, ``MedBlock: Efficient and Secure Medical Data Sharing via Blockchain,'' Journal of Medical Systems, 2018.
+[10] A. Azaria, A. Ekblaw, T. Vieira, and A. Lippman, ``MedRec: Using Blockchain for Medical Data Access and Permission Management,'' IEEE Open and Big Data Conference, 2016.

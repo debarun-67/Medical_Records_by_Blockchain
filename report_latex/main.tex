@@ -1,0 +1,343 @@
+\documentclass[12pt]{article}
+
+\usepackage[
+left=1.5in,
+right=1in,
+top=1in,
+bottom=1in
+]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage[strings]{underscore}
+\usepackage{newunicodechar}
+
+% Unicode mappings for symbols used in the report text (pdfLaTeX)
+\newunicodechar{₀}{$_0$}
+\newunicodechar{₁}{$_1$}
+\newunicodechar{₂}{$_2$}
+\newunicodechar{₃}{$_3$}
+\newunicodechar{₄}{$_4$}
+\newunicodechar{₅}{$_5$}
+\newunicodechar{₆}{$_6$}
+\newunicodechar{₇}{$_7$}
+\newunicodechar{₈}{$_8$}
+\newunicodechar{₉}{$_9$}
+\newunicodechar{ᵢ}{$_i$}
+\newunicodechar{ⱼ}{$_j$}
+
+\newunicodechar{…}{\ldots}
+\newunicodechar{≠}{$\neq$}
+\newunicodechar{∈}{$\in$}
+\newunicodechar{∧}{$\wedge$}
+\newunicodechar{⇔}{$\Leftrightarrow$}
+\newunicodechar{⟨}{$\langle$}
+\newunicodechar{⟩}{$\rangle$}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4\baselineskip}
+
+\begin{document}
+\input{paper.tex}
+\end{document}
+
+% -----------------------------------------------------------------------------
+% Title / Front Matter (old draft below is now ignored)
+% -----------------------------------------------------------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{1.0cm}
+
+  {\Large\bfseries Design and Implementation of a Distributed, Tamper-Evident Medical Ledger\\Using Proof-of-Authority Consensus\par}
+  \vspace{0.8cm}
+
+  {\large A Project Report submitted in partial fulfilment of the requirement\\for the Degree of Bachelor of Technology in Computer Science \& Engineering\par}
+  \vspace{0.4cm}
+
+  {\large Maulana Abul Kalam Azad University of Technology, West Bengal\par}
+  \vspace{0.2cm}
+
+  {\large February 2026\par}
+
+  \vspace{1.2cm}
+
+  {\large\bfseries By\par}
+  \vspace{0.2cm}
+  {\large Debarun Biswas\par}
+  \vspace{0.2cm}
+  {\large Registration No: 221000110186 (2022--23)\par}
+  {\large Examination Roll No: 10000122040\par}
+
+  \vspace{1.2cm}
+
+  {\large\bfseries Under the Guidance of\par}
+  \vspace{0.2cm}
+  {\large Prof. Santanu Phadikar\par}
+  {\large Professor, Department of Computer Science \& Engineering\par}
+  {\large Maulana Abul Kalam Azad University of Technology\par}
+
+  \vfill
+\end{titlepage}
+
+\pagenumbering{roman}
+
+\section*{Certificate}
+This is to certify that the Dissertation Project Report entitled ``Design and Implementation of a Permissioned Blockchain for Secure Medical Record Storage'' submitted by \textbf{Debarun Biswas} (University Roll No: 10000122040, Registration No: 221000110186 of 2022--23) to MAKAUT, WB, India, has been carried out under our guidance and supervision and is accepted in partial fulfilment of the requirement for the Degree of Bachelor of Technology in Computer Science and Engineering.
+
+\vspace{2.0cm}
+\begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
+\rule{0.95\linewidth}{0.4pt} & \rule{0.95\linewidth}{0.4pt} \\
+Prof. Santanu Phadikar & Mr. Mihir Sing \\
+Professor, Dept. of CSE & Head of the Department \\
+MAKAUT, West Bengal & Dept. of CSE, MAKAUT, W.B. \\
+\end{tabular}
+
+\newpage
+
+\section*{Certificate of Approval}
+The foregoing project report is hereby approved as a creditable study of an engineering subject and is presented in a manner satisfactory to warrant acceptance as prerequisite to the degree for which it has been submitted. It is understood that by this approval the undersigned do not necessarily endorse or approve any statement made, opinion expressed, or conclusion drawn therein, but approve the thesis only for which it is submitted.
+
+\vspace{1.2cm}
+Committee on final examination for the evaluation of the project report.
+
+\vspace{2.0cm}
+\begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
+\rule{0.95\linewidth}{0.4pt} & \rule{0.95\linewidth}{0.4pt} \\
+Signature of the Examiner & Signature of the Supervisor \\
+\end{tabular}
+
+\newpage
+
+\section*{Declaration of Originality and Compliance}
+I hereby declare that this project report entitled ``Design and Implementation of a Permissioned Blockchain for Secure Medical Record Storage'' contains literature survey and original research work by the undersigned candidate, as part of the Degree of Bachelor of Technology in Computer Science \& Engineering.
+
+All information has been obtained and presented in accordance with academic rules and ethical conduct. I also declare that, as required by these rules and conduct, I have fully cited and referenced all materials and results that are not original to this work.
+
+\vspace{1.5cm}
+\begin{tabular}{p{0.68\linewidth}p{0.28\linewidth}}
+Name: Debarun Biswas & \rule{0.95\linewidth}{0.4pt} \\
+Examination Roll No.: 10000122040 & Signature \\
+\end{tabular}
+
+\newpage
+
+\section*{Acknowledgements}
+First and foremost, I express my sincere gratitude to my respected guide, Prof. Santanu Phadikar, Department of Computer Science \& Engineering, for providing me the opportunity to undertake this project titled ``Design and Implementation of a Permissioned Blockchain for Secure Medical Record Storage.'' Their constant guidance, valuable insights, and unwavering support were instrumental in the successful completion of this work. I also extend my thanks to Mr. Mihir Sing for his leadership as Head of the Department, and to all faculty members of the Department of Computer Science \& Engineering for their continuous encouragement and academic support.
+
+\vspace{1.0cm}
+Date: February 5, 2026\\
+Place: Haringhata, West Bengal\\[1.0cm]
+\rule{0.45\linewidth}{0.4pt}\\
+Debarun Biswas
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\listoffigures
+\newpage
+
+\pagenumbering{arabic}
+
+% -----------------------------------------------------------------------------
+% Abstract
+% -----------------------------------------------------------------------------
+\begin{abstract}
+The increased digitalization of the healthcare industry has resulted in the adoption of Electronic Health Record (EHR) systems; however, most existing systems use centralized architectures that are susceptible to data tampering, insider attacks, and single points of failure. This project report proposes the design and implementation of a permissioned blockchain system for secure storage of medical data using a Proof-of-Authority (PoA) consensus protocol suitable for a healthcare consortium, where validator identities are authenticated and managed.
+
+The system is developed in C (C11) for deterministic execution, efficient memory management, and low-level network control. To preserve privacy, the design uses hybrid storage: encrypted medical files are stored off-chain, while cryptographic hashes and metadata are stored on-chain. Transactions are digitally signed using RSA-2048, and integrity is maintained through SHA-256 hash chaining.
+
+Performance measurements indicate block validation time of approximately 2\,ms and throughput above 800 transactions per second in a controlled single-validator environment. Security analysis indicates resistance to tampering and Sybil attacks under the stated trust assumptions, and detection of unauthorized off-chain file modification via hash mismatch.
+
+\textbf{Keywords:} Permissioned Blockchain, Proof of Authority, Medical Records, SHA-256, RSA, Distributed Ledger.
+\end{abstract}
+
+\section{Introduction \& Motivation}
+\subsection{Introduction}
+Healthcare systems increasingly depend on digital information. Hospitals record diagnosis history, laboratory results, prescriptions, imaging reports, and insurance claims in Electronic Health Record (EHR) systems. While this transition improves accessibility and coordination, it also increases exposure to cyber risk.
+
+Most institutions store records in centralized database servers governed by a privileged administrative authority. This architecture creates structural vulnerabilities: compromise of administrator credentials may enable undetected record modification, and ransomware or hardware failure can cause system-wide disruption. Centralization also creates a trust bottleneck across institutions (hospitals, labs, pharmacies, and insurers), because there is no shared cryptographic mechanism to independently verify historical integrity.
+
+Medical records require strong guarantees of \textit{integrity} (tamper evidence), \textit{provenance} (traceable authorship), and \textit{privacy} (restricted access). Conventional databases address confidentiality and availability via access control, encryption, and backups, but do not provide strong tamper-evidence against privileged insiders.
+
+Blockchain technology provides tamper evidence by linking blocks using cryptographic hashes. Any modification of past data changes the hash and breaks the chain, enabling verification by recomputation. However, public blockchains typically rely on Proof of Work, which is costly and low-throughput. Healthcare consortiums operate under known identities and oversight, motivating a permissioned model.
+
+In a permissioned network, only approved validators create blocks and sign them using private keys. Proof of Authority (PoA) aligns with this model: designated validators propose and sign blocks, providing accountability with low computational overhead and predictable latency.
+
+Privacy constraints motivate hybrid storage: storing raw medical records on-chain replicates sensitive data across nodes and conflicts with regulations such as HIPAA and GDPR. Therefore, this work stores encrypted files off-chain and anchors them on-chain via SHA-256 hashes and metadata.
+
+This report presents a lightweight, systems-level implementation (C11) of a PoA-based ledger tailored for secure medical record integrity. The design targets consortium deployments requiring deterministic execution, auditable code, and measurable performance.
+
+\subsection{Problem Statement}
+Healthcare institutions depend on centralized databases that assume trusted administrators and robust internal controls. Under realistic threat conditions (insider misuse, credential compromise, and ransomware), this assumption fails. Existing EHR systems face three limitations:
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=2.2em]
+\item \textbf{Centralized trust:} a single authority controls data and audit logs, preventing independent cryptographic tamper evidence.
+\item \textbf{Weak cross-institution integrity:} organizations maintain separate logs and rely on manual reconciliation rather than mathematical verification.
+\item \textbf{Single points of failure:} centralized infrastructure is vulnerable to outages and data unavailability.
+\end{enumerate}
+
+Public blockchains provide immutability but do not meet identity control, privacy, and performance requirements. Enterprise frameworks provide permissioning but can introduce heavy dependencies and operational complexity. This project therefore addresses the following problem:
+
+\textit{Design and implement a distributed ledger that provides cryptographic tamper evidence, identity-based validation, regulatory-aware data separation, and measurable performance suitable for healthcare consortium environments, with minimal architectural complexity.}
+
+\subsection{Research Objectives}
+\begin{itemize}[leftmargin=1.8em]
+\item Design a permissioned blockchain using Proof of Authority consensus.
+\item Implement the system in C with deterministic memory management and explicit serialization.
+\item Implement hybrid storage: encrypted medical files off-chain; hashes and metadata on-chain.
+\item Integrate RSA-based digital signatures for validator authentication and provenance.
+\item Implement SHA-256 hash chaining for tamper evidence.
+\item Implement a custom TCP peer-to-peer protocol for synchronization.
+\item Evaluate performance: latency, signature cost, throughput, and synchronization.
+\item Analyze security against tampering, Sybil, replay, key compromise, and off-chain manipulation.
+\item Discuss regulatory alignment with HIPAA and GDPR principles.
+\end{itemize}
+
+\section{Related Technologies and Architectural Analysis}
+\subsection{Evolution of Blockchain Systems}
+Blockchain originated as a distributed ledger for peer-to-peer digital currency, using distributed storage, hash chaining, and decentralized consensus. Early systems employed Proof of Work to prevent unauthorized history rewriting but suffered from low throughput and high energy use.
+
+Ethereum extended blockchains with smart contracts, enabling programmable state transitions at the cost of execution overhead and variable latency. For healthcare applications, unpredictable latency and complex runtime stacks can be operationally risky.
+
+Enterprise-oriented frameworks such as Hyperledger Fabric provide permissioned identity management and improved throughput but introduce multiple components and deployment complexity (certificate authorities, ordering services, orchestration). Healthcare deployments often benefit from smaller, auditable systems.
+
+PoA consensus fits consortium networks: validators are known institutions, and blocks are accepted when signed by an approved validator and correctly linked to the chain. This avoids computational puzzles while retaining accountability.
+
+\subsection{Security Considerations in Existing Systems}
+Centralized EHR systems depend on role-based access control and audit logs, but privileged compromise can affect both data and logs. In permissioned blockchains, security depends on validator governance and key management. Compromise of identity infrastructure can undermine trust, so explicit procedures for onboarding, rotation, and revocation are required.
+
+\subsection{Architectural Tradeoffs}
+Healthcare blockchain design requires balancing privacy, performance, and complexity. Storing medical files on-chain violates privacy and accelerates ledger growth; storing only hashes preserves confidentiality but requires secure off-chain storage. General-purpose smart-contract platforms increase flexibility but also attack surface and runtime overhead. This project adopts a focused design that implements only required components.
+
+\subsection{Rationale for Systems-Level Implementation}
+Managed runtimes can introduce latency variability (e.g., garbage collection) and increase dependency complexity. A systems-level implementation in C enables explicit control of memory, sockets, and serialization, improving determinism, interoperability, and auditability.
+
+\subsection{Identified Research Gap}
+Public blockchains lack permission control and predictable performance, while many enterprise frameworks increase operational complexity. Many academic proposals omit systems-level implementation details and deterministic performance evaluation. This work addresses the gap with a lightweight PoA ledger targeting medical record integrity with hybrid storage.
+
+\section{Theoretical Framework and Formal Model}
+\subsection{Mathematical Definition of the Ledger}
+Let $C$ represent the blockchain, defined as a finite ordered sequence of blocks:
+$$C = \{B_0, B_1, B_2, \ldots, B_n\}.$$
+$B_0$ is the genesis block and $n$ is the chain height.
+
+Each block $B_i$ is a tuple:
+$$B_i = \langle \text{index},\ \text{timestamp},\ \text{previous\_hash},\ \text{TxList},\ \text{validator\_id},\ \text{signature}\rangle.$$
+
+Let $H(x)$ denote SHA-256. The canonical block hash is:
+$$\text{Hash}(B_i) = H(\text{serialize}(\text{index}\ \|\|\ \text{timestamp}\ \|\|\ \text{previous\_hash}\ \|\|\ \text{TxList}\ \|\|\ \text{validator\_id})).$$
+
+Chain integrity requires, for $i>0$:
+$$B_i.\text{previous\_hash} = \text{Hash}(B_{i-1}).$$
+
+A transaction is:
+$$T = \langle \text{patient\_id},\ \text{doctor\_id},\ \text{data\_hash},\ \text{data\_pointer},\ \text{timestamp}\rangle,$$
+where $\text{data\_hash} = H(F)$ for the encrypted off-chain file $F$.
+
+\subsection{Consensus Logic (Proof of Authority)}
+Let $V=\{PK_1,\dots,PK_k\}$ be the set of authorized validator public keys. Leader scheduling is round-robin:
+$$\text{Leader}(h) = V[h\ \bmod\ |V|],$$
+where $h$ is the next block height.
+
+A node accepts a proposed block if structural validity, hash correctness, linkage consistency, signature verification, membership in $V$, and correct leader identity all hold.
+
+\section{System Design and Architecture}
+\subsection{Overall Architecture}
+The system operates as a consortium network with validator nodes and peer nodes. Validators create and sign blocks; peers replicate and verify the ledger. Encrypted medical files are stored off-chain, while the chain stores hashes and metadata references. Clients submit transactions to the current leader.
+
+\subsection{Layered Model}
+The design uses four layers:
+\begin{itemize}[leftmargin=1.8em]
+\item \textbf{Application layer:} authentication, submission, query handling.
+\item \textbf{Consensus layer:} PoA scheduling and identity checks.
+\item \textbf{Ledger layer:} block structures, hashing, verification rules.
+\item \textbf{Storage layer:} ledger persistence and off-chain file handling.
+\end{itemize}
+
+\subsection{Network Communication}
+Nodes communicate using persistent TCP sockets and a length-prefixed framing format. Message types include block proposal, validation response, chain height exchange, block requests, and synchronization transfer.
+
+\subsection{Transaction Processing Flow}
+A client encrypts the medical file, computes SHA-256 on the encrypted content, builds a transaction with metadata and a storage pointer, and sends it to the leader. The leader batches transactions into a block, signs the block hash, and broadcasts it. Peers verify linkage, hash correctness, and signatures before appending.
+
+\subsection{Key Management Architecture}
+Validators generate RSA key pairs locally; private keys never leave the node. Public keys are registered in a consortium-approved validator list distributed as a signed configuration. Key compromise is handled via revocation and optional rotation; nodes reject blocks from revoked keys.
+
+\subsection{Trust Boundary Definition}
+Trusted components include validator nodes within institutional infrastructure; peer nodes are semi-trusted (verify but may be read-only). Clients and network traffic are treated as untrusted; the primary external attack surface includes network parsing, key storage, and off-chain storage.
+
+\section{Implementation Details}
+The implementation is written in C (C11) with modular source structure for blockchain, cryptography, networking, storage, and node runtime coordination. Deterministic execution is supported via fixed-size structures and explicit serialization.
+
+\subsection{Deterministic Serialization}
+Consensus requires identical hash computation across nodes. All integer fields are encoded in fixed-width representation and appended in a predefined order; transactions are serialized sequentially. Signature fields are excluded from the hash input.
+
+\subsection{Hashing and Signatures}
+SHA-256 provides block and file hashing. RSA-2048 is used for validator block signatures; nodes verify signatures using the stored validator public keys.
+
+\subsection{Persistence and Recovery}
+Blocks are stored in an append-only ledger file. On startup, nodes replay and verify the chain; if trailing corruption is detected, the node rolls back to the last valid block height.
+
+\section{Performance Evaluation}
+\subsection{Experimental Setup}
+Experiments were conducted on an Intel Core i7 system with 16\,GB RAM and SSD storage, under Linux and Windows environments using GCC and C11. Synthetic transactions were used for repeatability.
+
+\subsection{Results Summary}
+Single-validator tests indicate approximately 2\,ms block validation time and throughput above 800 transactions/s in controlled conditions. RSA signing dominates computational cost; batching transactions improves throughput.
+
+\section{Security and Threat Analysis}
+The threat model assumes known validators and secure private-key storage, while treating the network and clients as potentially adversarial. Under these assumptions, the system mitigates:
+\begin{itemize}[leftmargin=1.8em]
+\item \textbf{Sybil attacks} via PoA membership enforcement (validator set).
+\item \textbf{Block tampering} via hash-chain verification.
+\item \textbf{Replay attacks} via transaction-pool duplicate checks.
+\item \textbf{Off-chain manipulation} via stored file-hash verification.
+\item \textbf{Key compromise} via validator revocation and rotation procedures.
+\end{itemize}
+
+\section{Legal, Compliance, and Scalability}
+Hybrid storage supports confidentiality by avoiding on-chain storage of medical files. ``Crypto-shredding'' (deleting encrypted off-chain files) provides a practical path toward data erasure requirements, while the remaining on-chain hashes do not reveal medical content. The metadata-only chain reduces storage growth and supports consortium-scale synchronization.
+
+\section{Conclusion and Future Work}
+This report presented a lightweight permissioned blockchain tailored for medical record integrity. The design enforces tamper evidence through SHA-256 hash chaining and RSA signatures, provides identity-controlled validation via Proof of Authority, and preserves privacy using off-chain encrypted storage anchored by on-chain hashes.
+
+Future work includes transport-layer security for node communication, hardware-backed key protection, improved governance automation (onboarding/revocation), enhanced monitoring, and advanced privacy mechanisms such as selective disclosure.
+
+\begin{thebibliography}{10}
+\bibitem{nakamoto2008}
+S.~Nakamoto, ``Bitcoin: A Peer-to-Peer Electronic Cash System,'' 2008.
+
+\bibitem{wood2014}
+G.~Wood, ``Ethereum: A Secure Decentralised Generalised Transaction Ledger,'' Ethereum Project Yellow Paper, 2014.
+
+\bibitem{fabric2023}
+Hyperledger Fabric Documentation, The Linux Foundation, 2023.
+
+\bibitem{castro1999}
+M.~Castro and B.~Liskov, ``Practical Byzantine Fault Tolerance,'' \textit{Proceedings of the Third Symposium on Operating Systems Design and Implementation}, 1999.
+
+\bibitem{fips1804}
+National Institute of Standards and Technology, ``Secure Hash Standard (SHA-256),'' FIPS PUB 180-4, 2015.
+
+\bibitem{fips1864}
+National Institute of Standards and Technology, ``Digital Signature Standard (DSS),'' FIPS PUB 186-4, 2013.
+
+\bibitem{hipaa}
+U.S. Department of Health and Human Services, ``Health Insurance Portability and Accountability Act of 1996 (HIPAA).''
+
+\bibitem{gdpr}
+European Parliament, ``General Data Protection Regulation (GDPR),'' Regulation (EU) 2016/679, 2016.
+
+\bibitem{fan2018}
+K.~Fan, S.~Wang, Y.~Ren, H.~Li, and Y.~Yang, ``MedBlock: Efficient and Secure Medical Data Sharing via Blockchain,'' \textit{Journal of Medical Systems}, 2018.
+
+\bibitem{azaria2016}
+A.~Azaria, A.~Ekblaw, T.~Vieira, and A.~Lippman, ``MedRec: Using Blockchain for Medical Data Access and Permission Management,'' \textit{IEEE Open and Big Data Conference}, 2016.
+\end{thebibliography}
+
+\end{document}
